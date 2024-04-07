@@ -10,6 +10,7 @@ public class GameMaster : NetworkComponent
     public bool GameStarted = false;
     public bool allPlayersReady = false;
     public NetworkPlayerManager[] players;
+    public NetworkPlayerController[] characters;
     public GameObject temp;
 
     public int phase1_done = 30;
@@ -22,6 +23,43 @@ public class GameMaster : NetworkComponent
             if (IsClient)
             {
                 players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
+            }
+        }
+
+        if(flag == "UI")
+        {
+            if(IsClient)
+            {
+                characters = GameObject.FindObjectsOfType<NetworkPlayerController>();
+
+                foreach(NetworkPlayerController character in characters)
+                {
+                    if(character.Owner == 0)
+                    {
+                        //GameObject.Find("P1Name").GetComponent<Text>().text = character.name;
+                        GameObject.Find("P1Health").GetComponent<Text>().text = character.health.ToString();
+                        //GameObject.Find("P1Score").GetComponent<Text>().text = character.score.ToString();
+                    }
+                    if (character.Owner == 1)
+                    {
+                        //GameObject.Find("P2Name").GetComponent<Text>().text = character.name;
+                        GameObject.Find("P2Health").GetComponent<Text>().text = character.health.ToString();
+                        //GameObject.Find("P2Score").GetComponent<Text>().text = character.score.ToString();
+                    }
+                    if (character.Owner == 2)
+                    {
+                        //GameObject.Find("P3Name").GetComponent<Text>().text = character.name;
+                        GameObject.Find("P3Health").GetComponent<Text>().text = character.health.ToString();
+                        //GameObject.Find("P3Score").GetComponent<Text>().text = character.score.ToString();
+                    }
+                    if (character.Owner == 3)
+                    {
+                        //GameObject.Find("P4Name").GetComponent<Text>().text = character.name;
+                        GameObject.Find("P4Health").GetComponent<Text>().text = character.health.ToString();
+                        //GameObject.Find("P4Score").GetComponent<Text>().text = character.score.ToString();
+                    }
+
+                }
             }
         }
 
@@ -71,8 +109,10 @@ public class GameMaster : NetworkComponent
         {
 
             players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
+            characters = GameObject.FindObjectsOfType<NetworkPlayerController>();
 
             SendUpdate("CHECK", "check");
+            SendUpdate("UI", "ui");
 
             yield return new WaitForSeconds(.1f);
         }
@@ -145,12 +185,35 @@ public class GameMaster : NetworkComponent
                 if(IsServer)
                 {
                     StartCoroutine(gameDone());
+                    //StartCoroutine(phase2());
                 }
             }
 
             yield return new WaitForSeconds(1f);
         }
     }
+
+    /*
+    public IEnumerator phase2()
+    {
+        while(phase2_done != 0)
+        {
+
+            phase2_done -= 1;
+            this.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = phase1_done.ToString();
+
+            if(phase2_done == 0)
+            {
+                if(IsServer)
+                {
+                    StartCoroutine(gameDone());
+                }
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+    */
 
     public IEnumerator gameDone()
     {

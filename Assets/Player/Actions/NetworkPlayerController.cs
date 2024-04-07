@@ -6,6 +6,12 @@ using UnityEngine.InputSystem;
 
 public class NetworkPlayerController : NetworkComponent
 {
+
+    public int health = 50;
+    public int updatedHealth;
+    public int knockback;
+    public int stun;
+
     public Rigidbody MyRig;
 
     public Vector2 lastDirection;
@@ -13,38 +19,59 @@ public class NetworkPlayerController : NetworkComponent
 
     public override void HandleMessage(string flag, string value)
     {
-        if(IsServer && flag == "MOVE")
+        if(flag == "MOVE")
         {
-            string[] numbers = value.Split(',');
-
-            lastDirection.x = float.Parse(numbers[0]);
-            if(numbers.Length > 1)
+            if(IsServer)
             {
-                lastDirection.y = float.Parse(numbers[1]);
+                string[] numbers = value.Split(',');
+
+                lastDirection.x = float.Parse(numbers[0]);
+                if(numbers.Length > 1)
+                {
+                    lastDirection.y = float.Parse(numbers[1]);
+                }
+                else
+                {
+                    lastDirection.y = float.Parse(numbers[0]);
+                }
+
+                transform.forward = new Vector3(lastDirection.x, 0, lastDirection.y);
+
+                float speed = MyRig.velocity.magnitude;
+                SendUpdate("MOVE", "moving");
+
             }
-            else
+            if(IsClient)
             {
-                lastDirection.y = float.Parse(numbers[0]);
+                float speed = MyRig.velocity.magnitude;
             }
-
-            transform.forward = new Vector3(lastDirection.x, 0, lastDirection.y);
-
-            float speed = MyRig.velocity.magnitude;
-            SendUpdate("MOVE", "moving");
-
-        }
-        if(IsClient)
-        {
-            float speed = MyRig.velocity.magnitude;
         }
 
-        if(IsServer && flag == "ATK")
+        if(flag == "ATK")
         {
-            SendUpdate("ATK", "startattack");
+            if(IsServer && flag == "ATK")
+            {
+                SendUpdate("ATK", "startattack");
+            }
+            if(IsClient && flag == "ATK")
+            {
+                //Stuff
+            }
         }
-        if(IsClient && flag == "ATK")
+
+        if(flag == "HEALTH")
         {
-            //Stuff
+            updatedHealth = int.Parse(value);
+
+            if(IsServer)
+            {
+                health = updatedHealth;
+                SendUpdate("HEALTH", value);
+            }
+            if(IsClient)
+            {
+                health = updatedHealth;
+            }
         }
     }
 
@@ -92,7 +119,18 @@ public class NetworkPlayerController : NetworkComponent
 
     public override IEnumerator SlowUpdate()
     {
-        yield return new WaitForSeconds(.1f);
+        while(MyCore.IsConnected)
+        {
+            if(IsServer)
+            {
+                if(IsDirty)
+                {
+                    SendUpdate("HEALTH", health.ToString());
+                }
+            }
+            yield return new WaitForSeconds(.1f);
+        }
+
     }
 
     // Start is called before the first frame update
