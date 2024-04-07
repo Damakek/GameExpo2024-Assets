@@ -113,6 +113,12 @@ public class GameMaster : NetworkComponent
                     
                     SendUpdate("GAMESTART", "start");
                     StartCoroutine(phase1());
+
+                    foreach(NetworkPlayerManager player in players)
+                    {   
+                        temp = MyCore.NetCreateObject(1, player.Owner, GameObject.Find("P" + (player.Owner + 1).ToString() + "Start").transform.position, Quaternion.identity);
+                    }
+
                 }
             }
 
