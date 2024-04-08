@@ -14,6 +14,7 @@ public class BaseEnemyBehavior : NetworkComponent
     public int enemyNumber = 0;
     public GameObject[] players;
     public int detectionRange = 4;
+    public bool canAtk = true;
     // Start is called before the first frame update
     public override void HandleMessage(string flag, string value) {
 
@@ -32,8 +33,11 @@ public class BaseEnemyBehavior : NetworkComponent
                     }
                 }
             }
-            if (player != null) {
+            if (player != null && canAtk) {
                 myNav.destination = player.transform.position;
+                myNav.Resume();
+            } else if(player != null && !canAtk) {
+                myNav.destination = this.transform.position - (this.transform.position - player.transform.position);
                 myNav.Resume();
             } else if(goals.Count > 0 && myNav.remainingDistance==0) {
                 goal++;
@@ -61,6 +65,22 @@ public class BaseEnemyBehavior : NetworkComponent
             myNav.Resume();
         }
     }
+
+    void OnCollisionEnter(Collision C) {
+        if(C.gameObject.tag == "Player" && IsServer) {
+            NetworkPlayerController tempCont = C.gameObject.GetComponent<NetworkPlayerController>();
+            tempCont.health = tempCont.health - 10;
+            tempCont.SendUpdate("HEALTH",tempCont.health.ToString());
+            StartCoroutine(AtkCd());
+        }
+    }
+
+    public IEnumerator AtkCd(float time = 0.5f) {
+        canAtk = false;
+        yield return new WaitForSeconds(time);
+        canAtk = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
