@@ -8,6 +8,8 @@ using NETWORK_ENGINE;
 public class GameMaster : NetworkComponent
 { 
     public bool GameStarted = false;
+    public bool phase_1;
+    public bool phase_2;
     public bool allPlayersReady = false;
     public NetworkPlayerManager[] players;
     public NetworkPlayerController[] characters;
@@ -67,6 +69,9 @@ public class GameMaster : NetworkComponent
         {
             if (IsClient)
             {
+
+                phase_1 = true;
+
                 foreach (NetworkPlayerManager player in players)
                 {
                     player.transform.GetChild(0).gameObject.SetActive(false);
@@ -75,7 +80,30 @@ public class GameMaster : NetworkComponent
             }
         }
 
-        if(flag == "TIMER")
+        if(flag == "SCORE")
+        {
+            if(IsClient)
+            {
+
+                this.transform.GetChild(0).gameObject.SetActive(false);
+                this.transform.GetChild(1).gameObject.SetActive(true);
+            }
+        }
+
+        if (flag == "PHASE")
+        {
+            if (IsClient)
+            {
+                phase_1 = false;
+                phase_2 = true;
+
+                this.transform.GetChild(1).gameObject.SetActive(false);
+                this.transform.GetChild(0).gameObject.SetActive(true);
+                
+            }
+        }
+
+        if (flag == "TIMER1")
         {
             if(IsClient)
             {
@@ -85,12 +113,22 @@ public class GameMaster : NetworkComponent
             }
         }
 
-        if(flag == "GAMEDONE")
+        if (flag == "TIMER2")
+        {
+            if (IsClient)
+            {
+
+                phase2_done = int.Parse(value);
+                this.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = phase2_done.ToString();
+            }
+        }
+
+        if (flag == "GAMEDONE")
         {
             if(IsClient)
             {
                 this.transform.GetChild(0).gameObject.SetActive(false);
-                this.transform.GetChild(1).gameObject.SetActive(true);
+                this.transform.GetChild(2).gameObject.SetActive(true);
             }
         }
     }
@@ -178,14 +216,15 @@ public class GameMaster : NetworkComponent
             phase1_done -= 1;
             this.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = phase1_done.ToString();
 
-            SendUpdate("TIMER", phase1_done.ToString());
+            SendUpdate("TIMER1", phase1_done.ToString());
 
             if(phase1_done == 0)
             {
                 if(IsServer)
                 {
-                    StartCoroutine(gameDone());
-                    //StartCoroutine(phase2());
+                    phase_1 = false;
+                    StartCoroutine(scoreboard());
+                    SendUpdate("SCORE", "scoreboard");
                 }
             }
 
@@ -193,16 +232,32 @@ public class GameMaster : NetworkComponent
         }
     }
 
-    /*
+    public IEnumerator scoreboard()
+    {
+        this.transform.GetChild(0).gameObject.SetActive(false);
+        this.transform.GetChild(1).gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+
+        this.transform.GetChild(0).gameObject.SetActive(true);
+        this.transform.GetChild(1).gameObject.SetActive(false);
+
+        phase_2 = true;
+        SendUpdate("PHASE", "phase2");
+        StartCoroutine(phase2());
+    }
+
+    
     public IEnumerator phase2()
     {
         while(phase2_done != 0)
         {
 
             phase2_done -= 1;
-            this.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = phase1_done.ToString();
+            this.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = phase2_done.ToString();
+            SendUpdate("TIMER2", phase2_done.ToString());
 
-            if(phase2_done == 0)
+            if (phase2_done == 0)
             {
                 if(IsServer)
                 {
@@ -213,14 +268,13 @@ public class GameMaster : NetworkComponent
             yield return new WaitForSeconds(1f);
         }
     }
-    */
 
     public IEnumerator gameDone()
     {
 
         SendUpdate("GAMEDONE", "done");
         this.transform.GetChild(0).gameObject.SetActive(false);
-        this.transform.GetChild(1).gameObject.SetActive(true);
+        this.transform.GetChild(2).gameObject.SetActive(true);
 
         yield return new WaitForSeconds(1f);
     }
