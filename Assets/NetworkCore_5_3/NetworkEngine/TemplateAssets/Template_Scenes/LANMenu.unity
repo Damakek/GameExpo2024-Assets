@@ -586,6 +586,7 @@ MonoBehaviour:
   SpawnPrefab:
   - {fileID: 8538568624578399216, guid: e6147e039513b224d853adedc1c719d5, type: 3}
   - {fileID: 288060067240392061, guid: 330f0a9e15c2cf24ab15d124a4a6cd46, type: 3}
+  - {fileID: 304005095270322908, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
   NetworkPlayerManager: {fileID: 915326141636491301, guid: 0fa3e060e951dce45b12aee5c56e9d8f, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &408156394
@@ -1994,6 +1995,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792996288}
   m_CullTransparentMesh: 0
+--- !u!1001 &1918055168
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1696060452386222098, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1920942591703337806, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: m_Name
+      value: Speed Collectible
+      objectReference: {fileID: 0}
+    - target: {fileID: 4455385155657792195, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+      propertyPath: hasRun
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
 --- !u!1 &1936438676
 GameObject:
   m_ObjectHideFlags: 0
@@ -2538,3 +2600,4 @@ SceneRoots:
   - {fileID: 2093094158}
   - {fileID: 1286466890}
   - {fileID: 1777052137}
+  - {fileID: 1918055168}
