@@ -5,14 +5,14 @@ using System.Security.Cryptography;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpeedCollectible : BaseCollectible
+public class ScoreCollectible : BaseCollectible
 {
     
     public bool hasRun = false;
 
     public NetworkPlayerController[] playerControllers;
     public NetworkPlayerManager[] playerManagers;
-    // public List<GameObject> cosmetic;
+    // List<GameObject> cosmetic;
 
     //public bool isCosmetic = false;
 
@@ -21,7 +21,7 @@ public class SpeedCollectible : BaseCollectible
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -42,19 +42,30 @@ public class SpeedCollectible : BaseCollectible
                 playerManagers = FindObjectsOfType<NetworkPlayerManager>();
             }
         }
-        
-        if (flag == "SPD")
+
+        if (flag == "SPH")
         {
-            if(IsClient)
+            if (IsClient)
             {
-                for (int i = 0; i < playerControllers.Length; i++)
+                if(value == "RESET")
                 {
-                    playerControllers[i].speed = float.Parse(value);
-  
+                    for (int i = 0; i < playerControllers.Length; i++)
+                    {
+                        playerControllers[i].scorePerHit = playerControllers[i].scorePerHit / 2;
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < playerControllers.Length; i++)
+                    {
+                        playerControllers[i].scorePerHit = playerControllers[i].scorePerHit * 2;
+
+                    }
                 }
             }
         }
-        if(flag == "DST")
+        if (flag == "DST")
         {
             if (IsClient)
             {
@@ -68,17 +79,17 @@ public class SpeedCollectible : BaseCollectible
         if (IsServer)
         {
             playerControllers = FindObjectsOfType<NetworkPlayerController>();
-            playerManagers = FindObjectsOfType<NetworkPlayerManager>(); 
+            playerManagers = FindObjectsOfType<NetworkPlayerManager>();
             SendUpdate("UPD", "");
         }
     }
 
     public override IEnumerator SlowUpdate()
     {
-     
+
         if (IsServer)
         {
-            
+
             if (IsDirty)
             {
 
@@ -91,13 +102,13 @@ public class SpeedCollectible : BaseCollectible
 
     private void OnTriggerEnter(Collider other)
     {
-        if(IsServer) 
+        if (IsServer)
         {
 
             if (other.CompareTag("Player"))
             {
                 Debug.Log("collision!");
-                
+
 
                 if (other.GetComponent<NetworkPlayerController>() != null)
                 {
@@ -112,16 +123,15 @@ public class SpeedCollectible : BaseCollectible
 
     public override IEnumerator SpeedBoost()
     {
+        
         Debug.Log("in coroutine");
         if (!hasRun)
         {
-           
+
             for (int i = 0; i < playerControllers.Length; i++)
             {
-                //cosmetic.Add(MyCore.NetCreateObject(2, playerControllers[i].Owner, new Vector3(playerControllers[i].transform.position.x, playerControllers[i].transform.position.y + 2f, playerControllers[i].transform.position.z)));
-                //cosmetic[i].transform.parent = playerControllers[i].transform;
-                playerControllers[i].speed = 8f;
-                SendUpdate("SPD", "8" );
+                playerControllers[i].scorePerHit = playerControllers[i].scorePerHit * 2;
+                SendUpdate("SPH", "");
             }
             hasRun = true;
         }
@@ -131,11 +141,11 @@ public class SpeedCollectible : BaseCollectible
         Debug.Log("inside 2nd part");
         for (int i = 0; i < playerControllers.Length; i++)
         {
-            //MyCore.NetDestroyObject(cosmetic[i].GetComponent<NetworkID>().NetId);
-            playerControllers[i].speed = 5f;
-            SendUpdate("SPD", "5");
+
+            playerControllers[i].scorePerHit = playerControllers[i].scorePerHit / 2;
+            SendUpdate("SPH", "RESET");
         }
-        //cosmetic.Clear();
+        
         hasRun = false;
         MyCore.NetDestroyObject(this.NetId);
 
