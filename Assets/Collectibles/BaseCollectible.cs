@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using NETWORK_ENGINE;
-public class BaseCollectible : NetworkComponent
+public abstract class BaseCollectible : NetworkComponent
 {
     
 
@@ -33,4 +33,6 @@ public class BaseCollectible : NetworkComponent
     {
         
     }
+
+    public abstract IEnumerator SpeedBoost();
 }

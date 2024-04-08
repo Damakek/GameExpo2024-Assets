@@ -12,6 +12,8 @@ public class NetworkPlayerController : NetworkComponent
     public int knockback;
     public int stun;
 
+    public int scorePerHit = 100;
+
     public Rigidbody MyRig;
 
     public Vector2 lastDirection;
