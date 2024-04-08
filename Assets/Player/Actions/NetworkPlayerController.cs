@@ -136,13 +136,13 @@ public class NetworkPlayerController : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-
+        MyRig = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(IsServer)
+        if(IsServer && MyRig != null)
         {
             MyRig.velocity = new Vector3(lastDirection.x, MyRig.velocity.y, lastDirection.y).normalized * speed;
         }

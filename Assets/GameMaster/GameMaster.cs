@@ -13,7 +13,7 @@ public class GameMaster : NetworkComponent
     public NetworkPlayerController[] characters;
     public GameObject temp;
 
-    public int phase1_done = 30;
+    public int phase1_done = 10000;
     public int phase2_done = 30;
 
     public override void HandleMessage(string flag, string value)

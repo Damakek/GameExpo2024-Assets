@@ -122,7 +122,7 @@ public class NetworkRigidbody : NetworkComponent
     // Update is called once per frame
     void Update()
     {
-        if (IsClient)
+        if (IsClient && myRig != null)
         {
             myRig.velocity = syncVelocity;
             myRig.angularVelocity = syncAngVelocity;
