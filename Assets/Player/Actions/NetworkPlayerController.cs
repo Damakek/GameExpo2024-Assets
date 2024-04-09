@@ -7,14 +7,20 @@ using UnityEngine.InputSystem;
 public class NetworkPlayerController : NetworkComponent
 {
 
+    
+
     public int health = 50;
+    public int score = 0;
     public int updatedHealth;
+    public int updatedScore;
+    
     public int knockback;
     public int stun;
 
     public int scorePerHit = 100;
 
     public Rigidbody MyRig;
+    public GameObject temp;
 
     public Vector2 lastDirection;
     public float speed = 5.0f;
@@ -53,6 +59,8 @@ public class NetworkPlayerController : NetworkComponent
         {
             if(IsServer && flag == "ATK")
             {
+                StartCoroutine(Attack());
+
                 SendUpdate("ATK", "startattack");
             }
             if(IsClient && flag == "ATK")
@@ -75,18 +83,55 @@ public class NetworkPlayerController : NetworkComponent
                 health = updatedHealth;
             }
         }
+
+        if(flag == "SCORE")
+        {
+            updatedScore = int.Parse(value);
+
+            if(IsServer)
+            {
+                score = updatedScore;
+                SendUpdate("SCORE", value);
+            }
+            if(IsClient)
+            {
+                score = updatedScore;
+            }
+        }
+
+        if(flag == "EHIT")
+        {
+
+            updatedScore = score + scorePerHit;
+
+           if(IsClient)
+           {
+                SendCommand("SCORE", updatedScore.ToString());
+           }
+        }
     }
 
     public override void NetworkedStart()
     {
         MyRig = this.GetComponent<Rigidbody>();
 
-        if (IsServer)
-        {
-
-        }
+        Hitbox.enemyHit += HandleMyEvent;
 
     }
+
+    public void OnDestroy()
+    {
+        Hitbox.enemyHit -= HandleMyEvent;
+    }
+
+    public void HandleMyEvent()
+    {
+        if(IsServer)
+        {
+            SendUpdate("EHIT", "updateScore");
+        }
+    }
+
 
     public void OnDirectionChanged(InputAction.CallbackContext context)
     {
@@ -128,11 +173,22 @@ public class NetworkPlayerController : NetworkComponent
                 if(IsDirty)
                 {
                     SendUpdate("HEALTH", health.ToString());
+                    
+                    IsDirty = false;
                 }
             }
             yield return new WaitForSeconds(.1f);
         }
 
+    }
+
+    public IEnumerator Attack()
+    {
+        temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        
+        yield return new WaitForSeconds(0.5f);
+
+        MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
     }
 
     // Start is called before the first frame update
