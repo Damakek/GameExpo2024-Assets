@@ -156,11 +156,11 @@ public class EnemyMovement : NetworkComponent
         if (health == 0)
         {
             int odds = Random.Range(0, 99);
-            if(odds <= 99)
+            if(odds < 99)
             {
                 int ind = Random.Range(0, collectiblePrefabs.Length);
-                MyCore.NetCreateObject(ind + 2, Owner, this.transform.position, Quaternion.identity);
-                Destroy(this.gameObject);
+                MyCore.NetCreateObject(ind + 2, Owner, new Vector3(this.transform.position.x, this.transform.position.y - 0.3f, this.transform.position.z), Quaternion.identity);
+                MyCore.NetDestroyObject(this.NetId);
             }
             
         }

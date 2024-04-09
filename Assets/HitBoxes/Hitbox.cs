@@ -24,13 +24,15 @@ public class Hitbox : NetworkComponent
         throw new System.NotImplementedException();
     }
 
-    public void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             enemyHit?.Invoke();
+            collision.gameObject.GetComponent<EnemyMovement>().health--;
         }
     }
+    
 
     // Start is called before the first frame update
     void Start()

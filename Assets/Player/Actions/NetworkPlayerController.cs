@@ -184,7 +184,7 @@ public class NetworkPlayerController : NetworkComponent
 
     public IEnumerator Attack()
     {
-        temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        temp = MyCore.NetCreateObject(7, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         
         yield return new WaitForSeconds(0.5f);
 
