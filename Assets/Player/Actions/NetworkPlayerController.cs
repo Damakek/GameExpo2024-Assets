@@ -8,7 +8,9 @@ public class NetworkPlayerController : NetworkComponent
 {
 
     public int health = 50;
+    public int score = 0;
     public int updatedHealth;
+    public int updatedScore;
     public int knockback;
     public int stun;
 
@@ -73,6 +75,21 @@ public class NetworkPlayerController : NetworkComponent
             if(IsClient)
             {
                 health = updatedHealth;
+            }
+        }
+
+        if(flag == "SCORE")
+        {
+            updatedScore = int.Parse(value);
+
+            if(IsServer)
+            {
+                score = updatedScore;
+                SendUpdate("SCORE", value);
+            }
+            if(IsClient)
+            {
+                score = updatedScore;
             }
         }
     }

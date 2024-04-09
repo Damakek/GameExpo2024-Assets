@@ -40,25 +40,25 @@ public class GameMaster : NetworkComponent
                     {
                         //GameObject.Find("P1Name").GetComponent<Text>().text = character.name;
                         GameObject.Find("P1Health").GetComponent<Text>().text = character.health.ToString();
-                        //GameObject.Find("P1Score").GetComponent<Text>().text = character.score.ToString();
+                        GameObject.Find("P1Score").GetComponent<Text>().text = character.score.ToString();
                     }
                     if (character.Owner == 1)
                     {
                         //GameObject.Find("P2Name").GetComponent<Text>().text = character.name;
                         GameObject.Find("P2Health").GetComponent<Text>().text = character.health.ToString();
-                        //GameObject.Find("P2Score").GetComponent<Text>().text = character.score.ToString();
+                        GameObject.Find("P2Score").GetComponent<Text>().text = character.score.ToString();
                     }
                     if (character.Owner == 2)
                     {
                         //GameObject.Find("P3Name").GetComponent<Text>().text = character.name;
                         GameObject.Find("P3Health").GetComponent<Text>().text = character.health.ToString();
-                        //GameObject.Find("P3Score").GetComponent<Text>().text = character.score.ToString();
+                        GameObject.Find("P3Score").GetComponent<Text>().text = character.score.ToString();
                     }
                     if (character.Owner == 3)
                     {
                         //GameObject.Find("P4Name").GetComponent<Text>().text = character.name;
                         GameObject.Find("P4Health").GetComponent<Text>().text = character.health.ToString();
-                        //GameObject.Find("P4Score").GetComponent<Text>().text = character.score.ToString();
+                        GameObject.Find("P4Score").GetComponent<Text>().text = character.score.ToString();
                     }
 
                 }
