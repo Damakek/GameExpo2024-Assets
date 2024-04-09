@@ -622,7 +622,7 @@ MonoBehaviour:
   - {fileID: 5116148508193200174, guid: 928ae3c487b99764685d925b336a10db, type: 3}
   - {fileID: 5115199405485486594, guid: 8c4dae000d560c3419152c33c9d16d8d, type: 3}
   - {fileID: 2874486565467559853, guid: f6af7243ff9dd4e4aaf1a798aa7061e3, type: 3}
-  - {fileID: 840078855458786381, guid: 405a796296399cd459483d574f6084c6, type: 3}
+  - {fileID: 840078855458786381, guid: 106d87f9d14cd9240a7f0aeb8458647e, type: 3}
   - {fileID: 1514680320611954122, guid: 1277c420900c5cb40b3ad5ebf983e1a1, type: 3}
   - {fileID: -2516792422378967402, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
   NetworkPlayerManager: {fileID: 915326141636491301, guid: 0fa3e060e951dce45b12aee5c56e9d8f, type: 3}
@@ -1052,7 +1052,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.33333334
+  m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 36b005728a339a848af0d6cf53754288, type: 2}
   m_BuildHeightMesh: 0
