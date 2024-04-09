@@ -152,6 +152,14 @@ public class GameMaster : NetworkComponent
             SendUpdate("CHECK", "check");
             SendUpdate("UI", "ui");
 
+            if(IsServer)
+            {
+                if(IsDirty)
+                {
+                    IsDirty = false;
+                }
+            }
+
             yield return new WaitForSeconds(.1f);
         }
     }

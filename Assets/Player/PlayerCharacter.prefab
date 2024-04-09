@@ -194,7 +194,15 @@ MonoBehaviour:
   MyCore: {fileID: 0}
   MyId: {fileID: 0}
   IsDirty: 0
+  health: 50
+  score: 0
+  updatedHealth: 0
+  updatedScore: 0
+  knockback: 0
+  stun: 0
+  scorePerHit: 100
   MyRig: {fileID: 0}
+  temp: {fileID: 0}
   lastDirection: {x: 0, y: 0}
   speed: 5
 --- !u!114 &-4430355847573080799
@@ -243,7 +251,19 @@ MonoBehaviour:
     m_ActionId: d858a60d-4f24-4f5f-8418-9120809dff81
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1143689291402920388}
+        m_TargetAssemblyTypeName: NetworkPlayerController, Assembly-CSharp
+        m_MethodName: OnFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f8f5aa13-ea9c-4628-90ac-f22fdac71508
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
