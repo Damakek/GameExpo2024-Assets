@@ -184,9 +184,16 @@ public class NetworkPlayerController : NetworkComponent
 
     public IEnumerator Attack()
     {
+        
+        if(temp != null)
+        {
+            MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+        }
+        
+
         temp = MyCore.NetCreateObject(7, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
     }
