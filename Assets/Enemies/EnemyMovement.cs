@@ -21,7 +21,7 @@ public class EnemyMovement : NetworkComponent
 
     public GameObject[] collectiblePrefabs;
 
-    public int health = 1;
+    public int health = 50;
 
     public override void HandleMessage(string flag, string value)
     {

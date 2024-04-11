@@ -214,6 +214,7 @@ MonoBehaviour:
   - {fileID: 8453048579434284262, guid: 2b8cc8c9cca7bfc43bbf543ba0c7fda1, type: 3}
   - {fileID: 6453853894200672700, guid: 928ae3c487b99764685d925b336a10db, type: 3}
   - {fileID: 7551906824507988636, guid: 8c4dae000d560c3419152c33c9d16d8d, type: 3}
+
   health: 1
 --- !u!65 &6017502548841960257
 BoxCollider:
@@ -236,3 +237,5 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.30109772, y: 0.41074497, z: 0.13882072}
   m_Center: {x: 0, y: 0, z: 0}
+
+

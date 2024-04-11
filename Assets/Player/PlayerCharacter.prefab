@@ -195,11 +195,10 @@ MonoBehaviour:
   MyId: {fileID: 0}
   IsDirty: 0
   health: 50
-
   score: 0
   updatedHealth: 0
   updatedScore: 0
-  knockback: 0
+  knockback: 100
   stun: 0
   scorePerHit: 100
   MyRig: {fileID: 0}
