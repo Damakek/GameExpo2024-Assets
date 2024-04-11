@@ -14,7 +14,7 @@ public class NetworkPlayerController : NetworkComponent
     public int updatedHealth;
     public int updatedScore;
     
-    public int knockback;
+    public int knockback = 10;
     public int stun;
 
     public int scorePerHit = 100;

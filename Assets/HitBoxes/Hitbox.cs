@@ -6,12 +6,21 @@ using NETWORK_ENGINE;
 
 public class Hitbox : NetworkComponent
 {
+
+    public NetworkPlayerController[] players;
+
     public delegate void MyEventHandler();
     public static event MyEventHandler enemyHit;
 
     public override void HandleMessage(string flag, string value)
     {
-        throw new System.NotImplementedException();
+        if(flag == "PLAYER")
+        {
+            if(IsClient)
+            {
+                players = GameObject.FindObjectsOfType<NetworkPlayerController>();
+            }
+        }
     }
 
     public override void NetworkedStart()
@@ -21,7 +30,15 @@ public class Hitbox : NetworkComponent
 
     public override IEnumerator SlowUpdate()
     {
-        throw new System.NotImplementedException();
+        while(MyCore.IsConnected)
+        {
+
+            players = GameObject.FindObjectsOfType<NetworkPlayerController>();
+            
+            SendUpdate("PLAYER", "get players");
+
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -29,7 +46,12 @@ public class Hitbox : NetworkComponent
         if (collision.gameObject.CompareTag("Enemy"))
         {
             enemyHit?.Invoke();
-            collision.gameObject.GetComponent<EnemyMovement>().health--;
+
+            collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 20, ForceMode.Impulse);
+
+            collision.gameObject.GetComponent<EnemyMovement>().health -= 1;
+
+            
         }
     }
     
