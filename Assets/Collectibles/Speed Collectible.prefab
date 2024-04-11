@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7906946035068023043}
   - component: {fileID: 304005095270322908}
   - component: {fileID: 4455385155657792195}
-  - component: {fileID: 5508766603159458465}
+  - component: {fileID: 1902832822874565091}
   m_Layer: 0
   m_Name: Speed Collectible
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.16361156, y: 0.118404, z: 0.02477471}
-  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -122,11 +122,11 @@ MonoBehaviour:
   MyCore: {fileID: 0}
   MyId: {fileID: 0}
   IsDirty: 0
+  hasRun: 0
   playerControllers: []
   playerManagers: []
-  hasRun: 0
---- !u!64 &5508766603159458465
-MeshCollider:
+--- !u!65 &1902832822874565091
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -143,7 +143,6 @@ MeshCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -336520244429124228, guid: 1e31282a7b052a1438e371826bd89d86, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 0.11606459, y: 0.101201676, z: 0.13167745}
+  m_Center: {x: 0, y: 0, z: -0.0000000037252894}
