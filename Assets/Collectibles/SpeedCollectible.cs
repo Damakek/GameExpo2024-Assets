@@ -58,7 +58,7 @@ public class SpeedCollectible : BaseCollectible
         {
             if (IsClient)
             {
-                this.gameObject.GetComponent<MeshCollider>().enabled = false;
+                this.gameObject.GetComponent<BoxCollider>().enabled = false;
                 this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             }
         }
@@ -101,7 +101,7 @@ public class SpeedCollectible : BaseCollectible
 
                 if (other.GetComponent<NetworkPlayerController>() != null)
                 {
-                    this.gameObject.GetComponent<MeshCollider>().enabled = false;
+                    this.gameObject.GetComponent<BoxCollider>().enabled = false;
                     this.gameObject.GetComponent<MeshRenderer>().enabled = false;
                     SendUpdate("DST", "");
                     StartCoroutine(SpeedBoost());
@@ -120,8 +120,8 @@ public class SpeedCollectible : BaseCollectible
             {
                 //cosmetic.Add(MyCore.NetCreateObject(2, playerControllers[i].Owner, new Vector3(playerControllers[i].transform.position.x, playerControllers[i].transform.position.y + 2f, playerControllers[i].transform.position.z)));
                 //cosmetic[i].transform.parent = playerControllers[i].transform;
-                playerControllers[i].speed = 8f;
-                SendUpdate("SPD", "8" );
+                playerControllers[i].speed = 12f;
+                SendUpdate("SPD", "12" );
             }
             hasRun = true;
         }
@@ -132,8 +132,8 @@ public class SpeedCollectible : BaseCollectible
         for (int i = 0; i < playerControllers.Length; i++)
         {
             //MyCore.NetDestroyObject(cosmetic[i].GetComponent<NetworkID>().NetId);
-            playerControllers[i].speed = 5f;
-            SendUpdate("SPD", "5");
+            playerControllers[i].speed = 8f;
+            SendUpdate("SPD", "8");
         }
         //cosmetic.Clear();
         hasRun = false;
