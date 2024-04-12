@@ -69,7 +69,7 @@ public class ScoreCollectible : BaseCollectible
         {
             if (IsClient)
             {
-                this.gameObject.GetComponent<MeshCollider>().enabled = false;
+                this.gameObject.GetComponent<BoxCollider>().enabled = false;
                 this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             }
         }
@@ -112,7 +112,7 @@ public class ScoreCollectible : BaseCollectible
 
                 if (other.GetComponent<NetworkPlayerController>() != null)
                 {
-                    this.gameObject.GetComponent<MeshCollider>().enabled = false;
+                    this.gameObject.GetComponent<BoxCollider>().enabled = false;
                     this.gameObject.GetComponent<MeshRenderer>().enabled = false;
                     SendUpdate("DST", "");
                     StartCoroutine(SpeedBoost());

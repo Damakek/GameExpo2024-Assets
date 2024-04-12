@@ -100,9 +100,9 @@ public class EnemyMovement : NetworkComponent
             {
                 foreach (NetworkPlayerController go in players)
                 {
-                    if (Vector3.Distance(go.transform.position, MyAgent.transform.position) <= 4)
+                    if (Vector3.Distance(go.transform.position, MyAgent.transform.position) <= detectionRange)
                     {
-                        Debug.Log(Vector3.Distance(go.transform.position, MyAgent.transform.position));
+                        //Debug.Log(Vector3.Distance(go.transform.position, MyAgent.transform.position));
                         MyAgent.SetDestination(go.transform.position);
                         isMoving = true;
                     }
