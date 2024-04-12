@@ -21,11 +21,24 @@ public class EnemyMovement : NetworkComponent
 
     public GameObject[] collectiblePrefabs;
 
+
     public int health = 50;
+
+
+    public Animator MyAnime;
 
     public override void HandleMessage(string flag, string value)
     {
-
+        if(IsClient)
+        {
+            if(flag == "MV")
+            {
+                if(value == "HI")
+                {
+                    MyAnime.Play("Run");
+                }
+            }
+        }
     }
 
     public override void NetworkedStart()
@@ -74,6 +87,8 @@ public class EnemyMovement : NetworkComponent
             {
                 Goals.Add(g.transform.position);
             }
+
+        MyAnime.Play("Run");
         }
 
     // Update is called once per frame
@@ -116,6 +131,8 @@ public class EnemyMovement : NetworkComponent
                     isMoving = true;
                     Vector3 direction = Goals[targetInd] - transform.position;
                     transform.forward = direction;
+                    SendUpdate("MV", "HI");
+
                 }
                 else if (MyAgent.remainingDistance <= MyAgent.stoppingDistance)
                 {
