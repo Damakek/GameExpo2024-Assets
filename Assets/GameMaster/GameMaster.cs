@@ -149,8 +149,11 @@ public class GameMaster : NetworkComponent
             players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
             characters = GameObject.FindObjectsOfType<NetworkPlayerController>();
 
+            
             SendUpdate("CHECK", "check");
             SendUpdate("UI", "ui");
+
+
 
             if(IsServer)
             {
@@ -173,7 +176,71 @@ public class GameMaster : NetworkComponent
     // Update is called once per frame
     void Update()
     {
-        
+        foreach (NetworkPlayerController character in characters)
+        {
+            if (character.Owner == 0)
+            {
+                //GameObject.Find("P1Name").GetComponent<Text>().text = character.name;
+                GameObject.Find("P1Health").GetComponent<Text>().text = character.health.ToString();
+                GameObject.Find("P1Score").GetComponent<Text>().text = character.score.ToString();
+            }
+            if (character.Owner == 1)
+            {
+                //GameObject.Find("P2Name").GetComponent<Text>().text = character.name;
+                GameObject.Find("P2Health").GetComponent<Text>().text = character.health.ToString();
+                GameObject.Find("P2Score").GetComponent<Text>().text = character.score.ToString();
+            }
+            if (character.Owner == 2)
+            {
+                //GameObject.Find("P3Name").GetComponent<Text>().text = character.name;
+                GameObject.Find("P3Health").GetComponent<Text>().text = character.health.ToString();
+                GameObject.Find("P3Score").GetComponent<Text>().text = character.score.ToString();
+            }
+            if (character.Owner == 3)
+            {
+                //GameObject.Find("P4Name").GetComponent<Text>().text = character.name;
+                GameObject.Find("P4Health").GetComponent<Text>().text = character.health.ToString();
+                GameObject.Find("P4Score").GetComponent<Text>().text = character.score.ToString();
+            }
+        }
+
+        NetworkPlayerController[] positions = characters;
+
+        NetworkPlayerController temp;
+        bool swapped;
+
+        for (int i = 0; i < positions.Length - 1; i++)
+        {
+            swapped = false;
+            for (int j = 0; j < positions.Length - i - 1; j++)
+            {
+                if (positions[j].score > positions[j + 1].score)
+                {
+
+                    // Swap arr[j] and arr[j+1]
+                    temp = positions[j];
+                    positions[j] = positions[j + 1];
+                    positions[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+
+            // If no two elements were
+            // swapped by inner loop, then break
+            if (swapped == false)
+                break;
+        }
+
+        for (int i = 0; i < characters.Length; i++)
+        {
+            for (int j = 0; j < positions.Length; j++)
+            {
+                if (characters[i].GetComponent<NetworkPlayerController>().Owner == positions[j].GetComponent<NetworkPlayerController>().Owner)
+                {
+                    characters[i].GetComponent<NetworkPlayerController>().position = j + 1;
+                }
+            }
+        }
     }
 
     public IEnumerator checkForReady()
@@ -258,6 +325,14 @@ public class GameMaster : NetworkComponent
     
     public IEnumerator phase2()
     {
+
+        EnemyMovement[] enemies = GameObject.FindObjectsOfType<EnemyMovement>();
+
+        foreach(EnemyMovement enemy in enemies)
+        {
+            MyCore.NetDestroyObject(enemy.NetId);
+        }
+
         while(phase2_done != 0)
         {
 

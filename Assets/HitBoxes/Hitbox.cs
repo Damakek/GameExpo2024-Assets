@@ -51,7 +51,17 @@ public class Hitbox : NetworkComponent
 
             collision.gameObject.GetComponent<EnemyMovement>().health -= 1;
 
-            
+        }
+
+        if(GameObject.Find("GameMaster").GetComponent<GameMaster>().phase_2 == true)
+        {
+            if(collision.gameObject.GetComponent<NetworkPlayerController>().Owner != this.Owner)
+            {
+
+                collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
+
+                collision.gameObject.GetComponent<NetworkPlayerController>().SendUpdate("HEALTH", (collision.gameObject.GetComponent<NetworkPlayerController>().health - 1).ToString()); ;
+            }
         }
     }
     
