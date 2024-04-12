@@ -13,7 +13,9 @@ public class NetworkPlayerController : NetworkComponent
     public int score = 0;
     public int updatedHealth;
     public int updatedScore;
-    
+
+    public int position;
+
     public int knockback = 10;
     public int stun;
 
@@ -104,9 +106,10 @@ public class NetworkPlayerController : NetworkComponent
 
             updatedScore = score + scorePerHit;
 
-           if(IsClient)
+           if(IsServer)
            {
-                SendCommand("SCORE", updatedScore.ToString());
+                score = updatedScore;
+                SendUpdate("SCORE", score.ToString());
            }
         }
     }
@@ -126,9 +129,14 @@ public class NetworkPlayerController : NetworkComponent
 
     public void HandleMyEvent()
     {
-        if(IsServer)
+        Hitbox[] hitboxes = GameObject.FindObjectsOfType<Hitbox>();
+
+        foreach(Hitbox hitbox in hitboxes)
         {
-            SendUpdate("EHIT", "updateScore");
+            if(hitbox.Owner == this.Owner)
+            {
+                SendCommand("EHIT", "enemy hit");
+            }
         }
     }
 
@@ -173,11 +181,12 @@ public class NetworkPlayerController : NetworkComponent
                 if(IsDirty)
                 {
                     SendUpdate("HEALTH", health.ToString());
+                    SendUpdate("SCORE", score.ToString());
                     
                     IsDirty = false;
                 }
             }
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.5f);
         }
 
     }
@@ -190,12 +199,34 @@ public class NetworkPlayerController : NetworkComponent
             MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
         }
         
-
-        temp = MyCore.NetCreateObject(7, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        if(position == 0)
+        {
+            temp = MyCore.NetCreateObject(11, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        }
+        else if(position == 1)
+        {
+            temp = MyCore.NetCreateObject(11, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        }
+        else if (position == 2)
+        {
+            temp = MyCore.NetCreateObject(12, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        }
+        else if (position == 3)
+        {
+            temp = MyCore.NetCreateObject(7, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        }
+        else if (position == 4)
+        {
+            temp = MyCore.NetCreateObject(10, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+        }
+        
         
         yield return new WaitForSeconds(0.1f);
 
-        MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+        if(temp != null)
+        {
+            MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+        }
     }
 
     // Start is called before the first frame update
