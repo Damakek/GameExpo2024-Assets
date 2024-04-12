@@ -625,6 +625,9 @@ MonoBehaviour:
   - {fileID: 840078855458786381, guid: 405a796296399cd459483d574f6084c6, type: 3}
   - {fileID: 1514680320611954122, guid: 1277c420900c5cb40b3ad5ebf983e1a1, type: 3}
   - {fileID: -2516792422378967402, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
+  - {fileID: 8272616597348537517, guid: bd76b92aeee02004496706ddf4a00cab, type: 3}
+  - {fileID: 7305921628859944645, guid: d025000a4ed56804cae3529921ab9933, type: 3}
+  - {fileID: 784678994382519563, guid: 6058f762ff99a1c469132096abdaa0c5, type: 3}
   NetworkPlayerManager: {fileID: 915326141636491301, guid: 0fa3e060e951dce45b12aee5c56e9d8f, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &408156394
