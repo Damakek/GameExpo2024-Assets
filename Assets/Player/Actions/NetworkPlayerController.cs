@@ -27,6 +27,8 @@ public class NetworkPlayerController : NetworkComponent
     public Vector2 lastDirection;
     public float speed = 5.0f;
 
+    public Animator MyAnime;
+    public float animationSpeed;
     public override void HandleMessage(string flag, string value)
     {
         if(flag == "MOVE")
@@ -53,7 +55,9 @@ public class NetworkPlayerController : NetworkComponent
             }
             if(IsClient)
             {
+                string[] numbers = value.Split(',');
                 float speed = MyRig.velocity.magnitude;
+                animationSpeed = Mathf.Max(Mathf.Abs(int.Parse(numbers[0])), Mathf.Abs(int.Parse(numbers[1])));
             }
         }
 
@@ -150,10 +154,13 @@ public class NetworkPlayerController : NetworkComponent
             if (context.action.phase == InputActionPhase.Started || context.action.phase == InputActionPhase.Performed)
             {
                 SendCommand("MOVE", context.ReadValue<Vector2>().x.ToString() + "," +  context.ReadValue<Vector2>().y.ToString());
+                animationSpeed = Mathf.Max(Mathf.Abs(context.ReadValue<Vector2>().x), Mathf.Abs(context.ReadValue<Vector2>().y));
+
             }
             if (context.action.phase == InputActionPhase.Canceled)
             {
                 SendCommand("MOVE", "0");
+                animationSpeed =  Mathf.Max(Mathf.Abs(0), Mathf.Abs(0));
             }
         }
         
@@ -199,6 +206,7 @@ public class NetworkPlayerController : NetworkComponent
             MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
         }
         
+
         if(position == 0)
         {
             temp = MyCore.NetCreateObject(11, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
@@ -220,6 +228,7 @@ public class NetworkPlayerController : NetworkComponent
             temp = MyCore.NetCreateObject(10, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         }
         
+
         
         yield return new WaitForSeconds(0.1f);
 
@@ -241,6 +250,13 @@ public class NetworkPlayerController : NetworkComponent
         if(IsServer && MyRig != null)
         {
             MyRig.velocity = new Vector3(lastDirection.x, MyRig.velocity.y, lastDirection.y).normalized * speed;
+        }
+
+        if (IsClient)
+        {
+            MyAnime.Play("Blend Tree");
+            MyAnime.SetFloat("Speedh", animationSpeed);
+
         }
     }
 }
