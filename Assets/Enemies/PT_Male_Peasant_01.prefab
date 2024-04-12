@@ -752,9 +752,10 @@ GameObject:
   - component: {fileID: 6715506492350141128}
   - component: {fileID: 3982855413890689755}
   - component: {fileID: 284880102077232177}
+  - component: {fileID: -2934558181479504532}
   m_Layer: 0
   m_Name: PT_Male_Peasant_01
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -769,7 +770,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -21.107023, y: 0.079, z: 193.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6012746697328532797}
@@ -842,13 +843,13 @@ MonoBehaviour:
   isFrozen: 0
   targetInd: 0
   canAtk: 1
-  detectionRange: 15
+  detectionRange: 0
   collectiblePrefabs:
-  - {fileID: 1920942591703337806, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
-  - {fileID: 8453048579434284262, guid: 2b8cc8c9cca7bfc43bbf543ba0c7fda1, type: 3}
-  - {fileID: 6453853894200672700, guid: 928ae3c487b99764685d925b336a10db, type: 3}
   - {fileID: 7551906824507988636, guid: 8c4dae000d560c3419152c33c9d16d8d, type: 3}
-  health: 1
+  - {fileID: 6453853894200672700, guid: 928ae3c487b99764685d925b336a10db, type: 3}
+  - {fileID: 8453048579434284262, guid: 2b8cc8c9cca7bfc43bbf543ba0c7fda1, type: 3}
+  - {fileID: 1920942591703337806, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
+  health: 50
   MyAnime: {fileID: 5027599278521884069}
 --- !u!195 &-815310445754472031
 NavMeshAgent:
@@ -960,8 +961,24 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2934558181479504532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1775868003720765501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e660edd24f85de408f08effe71617ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyCore: {fileID: 0}
+  MyId: {fileID: 0}
+  IsDirty: 0
+  tempSpeed: 5
 --- !u!1 &1801407708204256107
 GameObject:
   m_ObjectHideFlags: 0

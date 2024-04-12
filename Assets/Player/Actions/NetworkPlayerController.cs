@@ -57,7 +57,7 @@ public class NetworkPlayerController : NetworkComponent
             {
                 string[] numbers = value.Split(',');
                 float speed = MyRig.velocity.magnitude;
-                animationSpeed = Mathf.Max(Mathf.Abs(int.Parse(numbers[0])), Mathf.Abs(int.Parse(numbers[1])));
+                animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
             }
         }
 
@@ -209,7 +209,7 @@ public class NetworkPlayerController : NetworkComponent
 
         if(position == 0)
         {
-            temp = MyCore.NetCreateObject(11, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         }
         else if(position == 1)
         {

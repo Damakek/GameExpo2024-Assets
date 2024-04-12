@@ -625,10 +625,8 @@ MonoBehaviour:
   - {fileID: 2874486565467559853, guid: f6af7243ff9dd4e4aaf1a798aa7061e3, type: 3}
   - {fileID: 1514680320611954122, guid: 1277c420900c5cb40b3ad5ebf983e1a1, type: 3}
   - {fileID: -2516792422378967402, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
-
   - {fileID: 7383342667731425816, guid: ca4c10454998fd140b13dce14916f342, type: 3}
   - {fileID: 153228740514373070, guid: eb4b08ac332df9b40830930d69791122, type: 3}
-
   NetworkPlayerManager: {fileID: 915326141636491301, guid: 0fa3e060e951dce45b12aee5c56e9d8f, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &408156394
@@ -944,13 +942,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1768820367279261045, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
+      propertyPath: health
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1294499585346721956, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.291997
       objectReference: {fileID: 0}
     - target: {fileID: 1294499585346721956, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.28
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: 1294499585346721956, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
       propertyPath: m_LocalPosition.z
@@ -990,7 +992,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1926744796778136094, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1994367748820026664, guid: d4b80fe9d322cfe4cabbe50052c738ba, type: 3}
+      propertyPath: tempSpeed
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8474,6 +8480,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2537629374397441052, guid: 40748b3a67e61e349b194bc72c6efa9f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1573826467}
+    - targetCorrespondingSourceObject: {fileID: 3486219781515673859, guid: 40748b3a67e61e349b194bc72c6efa9f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1573826469}
   m_SourcePrefab: {fileID: 100100000, guid: 40748b3a67e61e349b194bc72c6efa9f, type: 3}
 --- !u!4 &1573826465 stripped
 Transform:
@@ -8516,6 +8525,27 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 082131f54ef20d34b9f75f8987fe7e6b, type: 2}
   m_BuildHeightMesh: 0
+--- !u!1 &1573826468 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3486219781515673859, guid: 40748b3a67e61e349b194bc72c6efa9f, type: 3}
+  m_PrefabInstance: {fileID: 1573826464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &1573826469
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573826468}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &1657534311
 GameObject:
   m_ObjectHideFlags: 0
@@ -9709,18 +9739,6 @@ PrefabInstance:
       value: PT_Male_Peasant_01
       objectReference: {fileID: 0}
     - target: {fileID: 3925958244205684616, guid: eb4b08ac332df9b40830930d69791122, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3925958244205684616, guid: eb4b08ac332df9b40830930d69791122, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3925958244205684616, guid: eb4b08ac332df9b40830930d69791122, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3925958244205684616, guid: eb4b08ac332df9b40830930d69791122, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20.938549
       objectReference: {fileID: 0}
@@ -9890,6 +9908,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameMaster
       objectReference: {fileID: 0}
+    - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
+      propertyPath: phase1_done
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
+      propertyPath: phase2_done
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9920,6 +9946,6 @@ SceneRoots:
   - {fileID: 2067829834}
   - {fileID: 1564998259}
   - {fileID: 927315575}
+  - {fileID: 3414579905526648578}
   - {fileID: 1573826464}
   - {fileID: 4559586837804084356}
-  - {fileID: 3414579905526648578}

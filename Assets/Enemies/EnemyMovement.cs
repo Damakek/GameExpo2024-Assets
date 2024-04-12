@@ -17,7 +17,7 @@ public class EnemyMovement : NetworkComponent
     public bool isFrozen = false;
     public int targetInd;
     public bool canAtk = true;
-    public int detectionRange = 4;
+    public int detectionRange;
 
     public GameObject[] collectiblePrefabs;
 
@@ -48,31 +48,7 @@ public class EnemyMovement : NetworkComponent
 
     public override IEnumerator SlowUpdate()
     {
-        /*while (IsServer)
-        {
-            GameObject player = null;
-            foreach (NetworkPlayerController go in players)
-            {
-                if (Mathf.Pow(Mathf.Pow(go.transform.position.x - this.transform.position.x, 2f) + Mathf.Pow(go.transform.position.y - this.transform.position.y, 2f) + Mathf.Pow(go.transform.position.z - this.transform.position.z, 2f), 0.5f) < detectionRange)
-                {
-                    if (player == null || Mathf.Abs((this.transform.position - go.transform.position).magnitude) < Mathf.Abs((this.transform.position - player.transform.position).magnitude))
-                    {
-                        player = go.gameObject;
-                    }
-                }
-            }
-            if (player != null && canAtk)
-            {
-                MyAgent.destination = player.transform.position;
-                isMoving = true;
-                MyAgent.Resume();
-            }
-            else if (player != null && !canAtk)
-            {
-                MyAgent.destination = this.transform.position - (this.transform.position - player.transform.position);
-                isMoving = true;
-                MyAgent.Resume();
-            }*/
+       
 
             yield return new WaitForSeconds(0.1f);
         
