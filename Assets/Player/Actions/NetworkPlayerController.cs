@@ -209,23 +209,23 @@ public class NetworkPlayerController : NetworkComponent
 
         if(position == 0)
         {
-            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            temp = MyCore.NetCreateObject(14, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         }
         else if(position == 1)
         {
-            temp = MyCore.NetCreateObject(11, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            temp = MyCore.NetCreateObject(14, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         }
         else if (position == 2)
         {
-            temp = MyCore.NetCreateObject(12, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         }
         else if (position == 3)
         {
-            temp = MyCore.NetCreateObject(7, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            temp = MyCore.NetCreateObject(13, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         }
         else if (position == 4)
         {
-            temp = MyCore.NetCreateObject(10, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            temp = MyCore.NetCreateObject(12, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
         }
         
 
