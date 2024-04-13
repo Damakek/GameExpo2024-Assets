@@ -60,7 +60,9 @@ public class Hitbox : NetworkComponent
 
                 collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
 
-                collision.gameObject.GetComponent<NetworkPlayerController>().SendUpdate("HEALTH", (collision.gameObject.GetComponent<NetworkPlayerController>().health - 1).ToString()); ;
+                NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+                tempCont.health = tempCont.health - 10;
+                tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
             }
         }
     }

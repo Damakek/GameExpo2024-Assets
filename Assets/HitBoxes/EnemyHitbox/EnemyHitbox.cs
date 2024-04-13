@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using NETWORK_ENGINE;
+
+public class EnemyHitbox : NetworkComponent
+{
+    public override void HandleMessage(string flag, string value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void OnTriggerEnter(Collider collision)
+    {
+        if(collision.gameObject.CompareTag("Player") == true)
+        {
+            NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+            tempCont.health = tempCont.health - 10;
+            tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+        }
+    }
+
+    public override void NetworkedStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override IEnumerator SlowUpdate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

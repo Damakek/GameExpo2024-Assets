@@ -630,6 +630,7 @@ MonoBehaviour:
   - {fileID: 3667416009567069523, guid: e8e8b98ca748adf4a8325466f192ca34, type: 3}
   - {fileID: 7148342265243746691, guid: 1034072c3031b164da51e1a99b3a6184, type: 3}
   - {fileID: 118502818095687145, guid: 6058f762ff99a1c469132096abdaa0c5, type: 3}
+  - {fileID: 5251996798275674296, guid: 56dcde99dc49e5c4d93f84d810509f9b, type: 3}
   NetworkPlayerManager: {fileID: 915326141636491301, guid: 0fa3e060e951dce45b12aee5c56e9d8f, type: 3}
   DefaultReturnScene: 0
 --- !u!4 &408156394
@@ -10062,7 +10063,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
       propertyPath: phase1_done
-      value: 10000
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
       propertyPath: phase2_done
