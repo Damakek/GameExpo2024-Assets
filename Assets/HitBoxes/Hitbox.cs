@@ -25,7 +25,7 @@ public class Hitbox : NetworkComponent
 
     public override void NetworkedStart()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public override IEnumerator SlowUpdate()

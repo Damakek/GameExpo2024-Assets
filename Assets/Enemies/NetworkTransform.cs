@@ -12,7 +12,7 @@ public class NetworkTransform : NetworkComponent
     //scale
 
     float threshold = 0.1f;
-    public float tempSpeed = 1;
+    public float tempSpeed;
 
 
     public override void HandleMessage(string flag, string value)

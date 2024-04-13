@@ -25,10 +25,13 @@ public class NetworkPlayerController : NetworkComponent
     public GameObject temp;
 
     public Vector2 lastDirection;
-    public float speed = 5.0f;
+    public float speed;
 
     public Animator MyAnime;
     public float animationSpeed;
+
+    public Vector3 lastFace = Vector3.zero;
+    public bool isMoving = false;
     public override void HandleMessage(string flag, string value)
     {
         if(flag == "MOVE")
@@ -56,8 +59,18 @@ public class NetworkPlayerController : NetworkComponent
             if(IsClient)
             {
                 string[] numbers = value.Split(',');
-                float speed = MyRig.velocity.magnitude;
-                animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
+                if(value != "0,0")
+                {
+                    isMoving = true;
+                    animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
+                    float speed = MyRig.velocity.magnitude;
+                }
+                else
+                {
+                    isMoving = false;
+                    animationSpeed = Mathf.Max(0, 0);
+                }
+
             }
         }
 
@@ -159,7 +172,7 @@ public class NetworkPlayerController : NetworkComponent
             }
             if (context.action.phase == InputActionPhase.Canceled)
             {
-                SendCommand("MOVE", "0");
+                SendCommand("MOVE", "0,0");
                 animationSpeed =  Mathf.Max(Mathf.Abs(0), Mathf.Abs(0));
             }
         }
@@ -249,13 +262,24 @@ public class NetworkPlayerController : NetworkComponent
     {
         if(IsServer && MyRig != null)
         {
-            MyRig.velocity = new Vector3(lastDirection.x, MyRig.velocity.y, lastDirection.y).normalized * speed;
+            Vector3 tv = new Vector3(lastDirection.x, 0, lastDirection.y).normalized * speed;
+            MyRig.velocity = tv + new Vector3(0, MyRig.velocity.y, 0);
+
+            if(tv  == Vector3.zero)
+            {
+                transform.forward = lastFace;
+            }
+            else
+            {
+                transform.forward = tv;
+                lastFace = tv;
+            }
         }
 
         if (IsClient)
         {
-            MyAnime.Play("Blend Tree");
-            MyAnime.SetFloat("Speedh", animationSpeed);
+            MyAnime.SetFloat("speedh", animationSpeed);
+            
 
         }
     }
