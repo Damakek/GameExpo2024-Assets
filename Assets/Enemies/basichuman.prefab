@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c116349b02d863f4b8b3fb663d87a8cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.28
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c116349b02d863f4b8b3fb663d87a8cd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -187,7 +187,7 @@ MonoBehaviour:
   MyCore: {fileID: 0}
   MyId: {fileID: 0}
   IsDirty: 0
-  tempSpeed: 1
+  tempSpeed: 5
 --- !u!114 &-1768820367279261045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +217,7 @@ MonoBehaviour:
   - {fileID: 8453048579434284262, guid: 2b8cc8c9cca7bfc43bbf543ba0c7fda1, type: 3}
   - {fileID: 6453853894200672700, guid: 928ae3c487b99764685d925b336a10db, type: 3}
   - {fileID: 7551906824507988636, guid: 8c4dae000d560c3419152c33c9d16d8d, type: 3}
-  health: 1
+  health: 50
   MyAnime: {fileID: 4133473672896087050}
 --- !u!65 &817154514934699491
 BoxCollider:

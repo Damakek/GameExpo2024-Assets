@@ -35,7 +35,16 @@ public class EnemyMovement : NetworkComponent
             {
                 if(value == "HI")
                 {
-                    MyAnime.Play("Run");
+                    MyAnime.Play("Idle - Run");
+                    MyAnime.SetFloat("speedh", 1);
+                }
+                if(value == "SP")
+                {
+                    MyAnime.SetFloat("speedh", 0);
+                }
+                if(value == "ATK")
+                {
+                    MyAnime.Play("Right Hook");
                 }
             }
         }
@@ -64,7 +73,7 @@ public class EnemyMovement : NetworkComponent
                 Goals.Add(g.transform.position);
             }
 
-        MyAnime.Play("Run");
+        MyAnime.Play("Idle - Run");
         }
 
     // Update is called once per frame
@@ -89,6 +98,7 @@ public class EnemyMovement : NetworkComponent
 
             if (IsServer)
             {
+
                 foreach (NetworkPlayerController go in players)
                 {
                     if (Vector3.Distance(go.transform.position, MyAgent.transform.position) <= detectionRange)
@@ -96,15 +106,20 @@ public class EnemyMovement : NetworkComponent
                         //Debug.Log(Vector3.Distance(go.transform.position, MyAgent.transform.position));
                         MyAgent.SetDestination(go.transform.position);
                         isMoving = true;
+                        SendUpdate("MV", "HI");
                     }
 
                 }
+
+                //Vector3 direction = Goals[targetInd] - transform.position;
+                //transform.forward = direction;
 
                 if (isMoving == false)
                 {
                     targetInd = PickTarget();
                     MyAgent.SetDestination(Goals[targetInd]);
                     isMoving = true;
+                    MyAnime.SetFloat("speedh", 1);
                     Vector3 direction = Goals[targetInd] - transform.position;
                     transform.forward = direction;
                     SendUpdate("MV", "HI");
@@ -113,6 +128,8 @@ public class EnemyMovement : NetworkComponent
                 else if (MyAgent.remainingDistance <= MyAgent.stoppingDistance)
                 {
                     isMoving = false;
+                    MyAnime.SetFloat("speedh", 0);
+                    SendUpdate("MV", "SP");
                 }
 
             }
@@ -130,6 +147,8 @@ public class EnemyMovement : NetworkComponent
     {
         if (C.gameObject.tag == "Player" && IsServer)
         {
+            MyAnime.Play("Right Hook");
+            SendUpdate("ATK", "");
             NetworkPlayerController tempCont = C.gameObject.GetComponent<NetworkPlayerController>();
             tempCont.health = tempCont.health - 10;
             tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
@@ -140,8 +159,10 @@ public class EnemyMovement : NetworkComponent
     public IEnumerator AtkCd(float time = 0.5f)
     {
         canAtk = false;
+        
         yield return new WaitForSeconds(time);
         canAtk = true;
+        
     }
 
     public void HealthCheck()

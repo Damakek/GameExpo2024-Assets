@@ -14,8 +14,8 @@ public class InverseSpeed : SpeedCollectible
             for (int i = 0; i < playerControllers.Length; i++)
             {
                 
-                playerControllers[i].speed = 5f;
-                SendUpdate("SPD", "5");
+                playerControllers[i].speed = 9f;
+                SendUpdate("SPD", "9");
             }
             hasRun = true;
         }
@@ -26,8 +26,8 @@ public class InverseSpeed : SpeedCollectible
         for (int i = 0; i < playerControllers.Length; i++)
         {
             
-            playerControllers[i].speed = 8f;
-            SendUpdate("SPD", "8");
+            playerControllers[i].speed = 12f;
+            SendUpdate("SPD", "12");
         }
         
         hasRun = false;
