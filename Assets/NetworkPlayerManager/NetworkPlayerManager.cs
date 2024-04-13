@@ -7,34 +7,26 @@ using NETWORK_ENGINE;
 public class NetworkPlayerManager : NetworkComponent
 {
 
-    public GameObject newPlayerPanel;
     public NetworkPlayerManager[] players;
-    public GameObject temp;
 
     public string PName;
     public bool IsReady;
-    public int playersJoined = 1;
+    public int playersJoined;
+    
 
     public override void HandleMessage(string flag, string value)
     {
-        if (flag == "READYPANEL")
+        
+        if(flag == "NEWPLAYER")
         {
-            if(IsLocalPlayer)
+            if(IsClient)
             {
                 players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
-                
-                foreach(NetworkPlayerManager player in players)
+
+                for(int i = 0; i < players.Length - 1; i++)
                 {
-
-                    if(player.Owner != this.Owner)
-                    {
-                        temp = Instantiate(newPlayerPanel);
-                        temp.transform.parent = this.transform.GetChild(0).GetChild(0).GetChild(2);
-                        temp.transform.GetChild(1).GetComponent<Toggle>().isOn = player.IsReady;
-                        temp.transform.GetChild(1).GetComponent<Toggle>().interactable = false;
-                    }
+                    this.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(i).gameObject.SetActive(true);
                 }
-
             }
         }
 
@@ -55,7 +47,7 @@ public class NetworkPlayerManager : NetworkComponent
                 SendUpdate("NAME", value);
             }
         }
-    }
+    } 
 
     public void UI_Ready(bool r)
     {
@@ -79,13 +71,16 @@ public class NetworkPlayerManager : NetworkComponent
         {
             this.transform.GetChild(0).gameObject.SetActive(false);
         }
-
-
-
-        if(IsServer)
+        
+        
+        if(IsClient)
         {
-           
+            for (int i = 0; i < 3; i++)
+            {
+                this.transform.GetChild(0).GetChild(0).GetChild(2).GetChild(i).gameObject.SetActive(false);
+            }
         }
+        
     }
 
     public override IEnumerator SlowUpdate()
@@ -96,10 +91,12 @@ public class NetworkPlayerManager : NetworkComponent
             {
 
                 players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
-                if (players.Length > 1 && players.Length > playersJoined)
+
+                playersJoined = players.Length;
+
+                if(playersJoined > 1)
                 {
-                    playersJoined++;
-                    SendUpdate("READYPANEL", "add");
+                    SendUpdate("NEWPLAYER", "playerJoined");
                 }
 
                 if (IsDirty)

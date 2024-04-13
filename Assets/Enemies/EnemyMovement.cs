@@ -89,6 +89,7 @@ public class EnemyMovement : NetworkComponent
 
             if (IsServer)
             {
+
                 foreach (NetworkPlayerController go in players)
                 {
                     if (Vector3.Distance(go.transform.position, MyAgent.transform.position) <= detectionRange)
@@ -97,7 +98,6 @@ public class EnemyMovement : NetworkComponent
                         MyAgent.SetDestination(go.transform.position);
                         isMoving = true;
                     }
-
                 }
 
                 if (isMoving == false)
