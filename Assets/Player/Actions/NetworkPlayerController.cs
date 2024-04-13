@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class NetworkPlayerController : NetworkComponent
 {
 
-    
+
 
     public int health = 50;
     public int score = 0;
@@ -32,102 +32,153 @@ public class NetworkPlayerController : NetworkComponent
 
     public Vector3 lastFace = Vector3.zero;
     public bool isMoving = false;
+    public bool isBlocking = false;
+
+    public Vector2 lastMoveCmd = Vector2.zero;
     public override void HandleMessage(string flag, string value)
     {
-        if(flag == "MOVE")
+        if (flag == "MOVE")
         {
-            if(IsServer)
+            if (IsServer)
             {
-                string[] numbers = value.Split(',');
-
-                lastDirection.x = float.Parse(numbers[0]);
-                if(numbers.Length > 1)
+                if (isBlocking)
                 {
-                    lastDirection.y = float.Parse(numbers[1]);
+                    lastDirection.x = 0;
+                    lastDirection.y = 0;
+                    SendUpdate("MOVE", "moving");
                 }
-                else
+                if(!isBlocking)
                 {
-                    lastDirection.y = float.Parse(numbers[0]);
-                }
+                    string[] numbers = value.Split(',');
 
-                transform.forward = new Vector3(lastDirection.x, 0, lastDirection.y);
+                    lastDirection.x = float.Parse(numbers[0]);
+                    if (numbers.Length > 1)
+                    {
+                        lastDirection.y = float.Parse(numbers[1]);
+                    }
+                    else
+                    {
+                        lastDirection.y = float.Parse(numbers[0]);
+                    }
 
-                float speed = MyRig.velocity.magnitude;
-                SendUpdate("MOVE", "moving");
+                    transform.forward = new Vector3(lastDirection.x, 0, lastDirection.y);
 
-            }
-            if(IsClient)
-            {
-                string[] numbers = value.Split(',');
-                if(value != "0,0")
-                {
-                    isMoving = true;
-                    animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
                     float speed = MyRig.velocity.magnitude;
+                    SendUpdate("MOVE", "moving");
+                }
+            }
+            if (IsClient)
+            {
+                if (!isBlocking)
+                {
+                    string[] numbers = value.Split(',');
+                    if (value != "0,0")
+                    {
+                        isMoving = true;
+                        animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
+                        float speed = MyRig.velocity.magnitude;
+                    }
+                    else
+                    {
+                        isMoving = false;
+                        animationSpeed = Mathf.Max(0, 0);
+                    }
+                }
+            }
+        }
+
+        if (flag == "ATK")
+        {
+            if (IsServer && flag == "ATK")
+            {
+                if (!isBlocking)
+                {
+                    StartCoroutine(Attack());
+
+                    SendUpdate("ATK", "startattack");
+                }
+            }
+            if (IsClient && flag == "ATK")
+            {
+                if (!isBlocking)
+                {
+                    MyAnime.SetTrigger("Attack");
+                }
+            }
+        }
+
+        if(flag == "BLK")
+        {
+            if(IsServer && flag  == "BLK")
+            {
+                if (value == "end")
+                {
+                    isBlocking = false;
                 }
                 else
                 {
-                    isMoving = false;
-                    animationSpeed = Mathf.Max(0, 0);
+                    isBlocking = true;
+                    
                 }
+           
+                SendUpdate("BLK", isBlocking.ToString());
+            }
+            if(IsClient && flag == "BLK")
+            {
+                isBlocking = bool.Parse(value);
+                MyAnime.SetBool("isBlocking", isBlocking);
+                if (isBlocking)
+                {
+                    SendCommand("MOVE", "0,0");
+                }
+                else
+                {
+                    SendCommand("MOVE", lastMoveCmd.x.ToString() + "," + lastMoveCmd.y.ToString());
 
+                }
             }
         }
 
-        if(flag == "ATK")
-        {
-            if(IsServer && flag == "ATK")
-            {
-                StartCoroutine(Attack());
-
-                SendUpdate("ATK", "startattack");
-            }
-            if(IsClient && flag == "ATK")
-            {
-                //Stuff
-            }
-        }
-
-        if(flag == "HEALTH")
+        if (flag == "HEALTH")
         {
             updatedHealth = int.Parse(value);
 
-            if(IsServer)
+            if (IsServer)
             {
                 health = updatedHealth;
                 SendUpdate("HEALTH", value);
             }
-            if(IsClient)
+            if (IsClient)
             {
                 health = updatedHealth;
             }
         }
 
-        if(flag == "SCORE")
+        if (flag == "SCORE")
         {
             updatedScore = int.Parse(value);
 
-            if(IsServer)
+            if (IsServer)
             {
                 score = updatedScore;
                 SendUpdate("SCORE", value);
             }
-            if(IsClient)
+            if (IsClient)
             {
                 score = updatedScore;
             }
         }
 
-        if(flag == "EHIT")
+        if (flag == "EHIT")
         {
 
             updatedScore = score + scorePerHit;
 
-           if(IsServer)
-           {
+            if (IsServer)
+            {
                 score = updatedScore;
                 SendUpdate("SCORE", score.ToString());
-           }
+            }
         }
     }
 
@@ -148,9 +199,9 @@ public class NetworkPlayerController : NetworkComponent
     {
         Hitbox[] hitboxes = GameObject.FindObjectsOfType<Hitbox>();
 
-        foreach(Hitbox hitbox in hitboxes)
+        foreach (Hitbox hitbox in hitboxes)
         {
-            if(hitbox.Owner == this.Owner)
+            if (hitbox.Owner == this.Owner)
             {
                 SendCommand("EHIT", "enemy hit");
             }
@@ -166,30 +217,47 @@ public class NetworkPlayerController : NetworkComponent
 
             if (context.action.phase == InputActionPhase.Started || context.action.phase == InputActionPhase.Performed)
             {
-                SendCommand("MOVE", context.ReadValue<Vector2>().x.ToString() + "," +  context.ReadValue<Vector2>().y.ToString());
+                lastMoveCmd = new Vector2(context.ReadValue<Vector2>().x, context.ReadValue<Vector2>().y);
+                SendCommand("MOVE", context.ReadValue<Vector2>().x.ToString() + "," + context.ReadValue<Vector2>().y.ToString());
                 animationSpeed = Mathf.Max(Mathf.Abs(context.ReadValue<Vector2>().x), Mathf.Abs(context.ReadValue<Vector2>().y));
 
             }
             if (context.action.phase == InputActionPhase.Canceled)
             {
+                lastMoveCmd = Vector2.zero;
                 SendCommand("MOVE", "0,0");
-                animationSpeed =  Mathf.Max(Mathf.Abs(0), Mathf.Abs(0));
+                animationSpeed = Mathf.Max(Mathf.Abs(0), Mathf.Abs(0));
             }
         }
-        
+
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
 
-        if(IsLocalPlayer)
+        if (IsLocalPlayer)
         {
             if (context.action.phase == InputActionPhase.Started)
             {
                 SendCommand("ATK", "start attack");
             }
         }
-        
+
+    }
+
+    public void OnBlock(InputAction.CallbackContext context)
+    {
+        if(IsLocalPlayer)
+        {
+            if(context.action.phase == InputActionPhase.Performed)
+            {
+                SendCommand("BLK", "start block");
+            }
+            if(context.action.phase == InputActionPhase.Canceled)
+            {
+                SendCommand("BLK", "end");
+            }
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -278,9 +346,12 @@ public class NetworkPlayerController : NetworkComponent
 
         if (IsClient)
         {
+       
             MyAnime.SetFloat("speedh", animationSpeed);
             
 
         }
     }
+
+    
 }
