@@ -20,6 +20,7 @@ public class EnemyMovement : NetworkComponent
     public int detectionRange;
 
     public GameObject[] collectiblePrefabs;
+    public GameObject temp;
 
 
     public int health = 50;
@@ -44,6 +45,7 @@ public class EnemyMovement : NetworkComponent
                 }
                 if(value == "ATK")
                 {
+                    MyAnime.SetTrigger("Attack");
                     MyAnime.Play("Right Hook");
                 }
             }
@@ -52,7 +54,7 @@ public class EnemyMovement : NetworkComponent
 
     public override void NetworkedStart()
     {
-
+        
     }
 
     public override IEnumerator SlowUpdate()
@@ -73,7 +75,7 @@ public class EnemyMovement : NetworkComponent
                 Goals.Add(g.transform.position);
             }
 
-        MyAnime.Play("Idle - Run");
+            MyAnime.Play("Idle - Run");
         }
 
     // Update is called once per frame
@@ -89,7 +91,7 @@ public class EnemyMovement : NetworkComponent
         {
             if (players.Count <= 0)
             {
-                Debug.Log("assigning player");
+                //Debug.Log("assigning player");
                 foreach (NetworkPlayerController gameO in FindObjectsOfType<NetworkPlayerController>())
                 {
                     players.Add(gameO);
@@ -107,6 +109,11 @@ public class EnemyMovement : NetworkComponent
                         MyAgent.SetDestination(go.transform.position);
                         isMoving = true;
                         SendUpdate("MV", "HI");
+                    }
+                    
+                    if(canAtk == true && Vector3.Distance(go.transform.position, MyAgent.transform.position) < 5)
+                    {
+                        StartCoroutine(AtkCd());
                     }
                 }
 
@@ -142,24 +149,31 @@ public class EnemyMovement : NetworkComponent
         return temp;
     }
 
-    void OnCollisionEnter(Collision C)
-    {
-        if (C.gameObject.tag == "Player" && IsServer)
-        {
-            MyAnime.Play("Right Hook");
-            SendUpdate("ATK", "");
-            NetworkPlayerController tempCont = C.gameObject.GetComponent<NetworkPlayerController>();
-            tempCont.health = tempCont.health - 10;
-            tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
-            StartCoroutine(AtkCd());
-        }
-    }
-
     public IEnumerator AtkCd(float time = 0.5f)
     {
+
+        if(temp != null)
+        {
+            MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+        }
+
         canAtk = false;
-        
+
+        if(IsServer)
+        {
+            SendUpdate("MV", "ATK");
+        }
+
+        temp = MyCore.NetCreateObject(15, -1, this.transform.position + this.transform.forward, Quaternion.identity);
+
+
         yield return new WaitForSeconds(time);
+
+        if (temp != null)
+        {
+            MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+        }
+
         canAtk = true;
         
     }
