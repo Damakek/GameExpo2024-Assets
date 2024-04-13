@@ -108,7 +108,6 @@ public class EnemyMovement : NetworkComponent
                         isMoving = true;
                         SendUpdate("MV", "HI");
                     }
-
                 }
 
                 //Vector3 direction = Goals[targetInd] - transform.position;

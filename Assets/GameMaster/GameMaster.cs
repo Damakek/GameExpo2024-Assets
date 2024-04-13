@@ -11,8 +11,10 @@ public class GameMaster : NetworkComponent
     public bool phase_1;
     public bool phase_2;
     public bool allPlayersReady = false;
+    public int playersJoined;
     public NetworkPlayerManager[] players;
     public NetworkPlayerController[] characters;
+    public List<GameObject> playerInfo = new List<GameObject>();
     public GameObject temp;
 
     public int phase1_done = 10000;
@@ -140,6 +142,8 @@ public class GameMaster : NetworkComponent
             StartCoroutine(checkForReady());
         }
     }
+
+
 
     public override IEnumerator SlowUpdate()
     {
