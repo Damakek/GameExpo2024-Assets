@@ -72,8 +72,9 @@ public class NetworkPlayerController : NetworkComponent
                 if (!isBlocking)
                 {
                     string[] numbers = value.Split(',');
-                    if (value != "0,0")
+                    if (lastMoveCmd  != Vector2.zero)
                     {
+                        MyAnime.SetBool("isMoving", true);
                         isMoving = true;
                         animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
                         float speed = MyRig.velocity.magnitude;
@@ -81,6 +82,7 @@ public class NetworkPlayerController : NetworkComponent
                     else
                     {
                         isMoving = false;
+                        MyAnime.SetBool("isMoving", false);
                         animationSpeed = Mathf.Max(0, 0);
                     }
                 }
@@ -225,7 +227,7 @@ public class NetworkPlayerController : NetworkComponent
             if (context.action.phase == InputActionPhase.Canceled)
             {
                 lastMoveCmd = Vector2.zero;
-                SendCommand("MOVE", "0,0");
+                SendCommand("MOVE", "0");
                 animationSpeed = Mathf.Max(Mathf.Abs(0), Mathf.Abs(0));
             }
         }
