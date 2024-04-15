@@ -14,9 +14,13 @@ public class EnemyHitbox : NetworkComponent
     {
         if(collision.gameObject.CompareTag("Player") == true)
         {
-            NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
-            tempCont.health = tempCont.health - 10;
-            tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+            if(!collision.gameObject.GetComponent<NetworkPlayerController>().isBlocking == true)
+            {
+                NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+                tempCont.health = tempCont.health - 10;
+                tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+            }
+       
         }
     }
 
