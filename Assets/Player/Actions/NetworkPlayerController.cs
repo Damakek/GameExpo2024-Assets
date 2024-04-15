@@ -34,6 +34,8 @@ public class NetworkPlayerController : NetworkComponent
     public bool isMoving = false;
     public bool isBlocking = false;
 
+    public bool canAtk = true;
+
     public Vector2 lastMoveCmd = Vector2.zero;
     public override void HandleMessage(string flag, string value)
     {
@@ -89,13 +91,25 @@ public class NetworkPlayerController : NetworkComponent
             }
         }
 
+        if(flag == "CHLD")
+        {
+            if (IsClient)
+            {
+                MyCore.NetObjs[int.Parse(value)].gameObject.transform.parent = this.transform;
+            }
+        }
+
         if (flag == "ATK")
         {
             if (IsServer && flag == "ATK")
             {
                 if (!isBlocking)
                 {
-                    StartCoroutine(Attack());
+                    if (canAtk)
+                    {
+                        StartCoroutine(Attack());
+                    }
+                    
 
                     SendUpdate("ATK", "startattack");
                 }
@@ -283,42 +297,47 @@ public class NetworkPlayerController : NetworkComponent
 
     public IEnumerator Attack()
     {
-        
-        if(temp != null)
+        if (canAtk)
         {
-            MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
-        }
-        
+            if (temp != null)
+            {
+                MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+            }
 
-        if(position == 0)
-        {
-            temp = MyCore.NetCreateObject(14, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
-        }
-        else if(position == 1)
-        {
-            temp = MyCore.NetCreateObject(14, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
-        }
-        else if (position == 2)
-        {
-            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
-        }
-        else if (position == 3)
-        {
-            temp = MyCore.NetCreateObject(13, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
-        }
-        else if (position == 4)
-        {
-            temp = MyCore.NetCreateObject(12, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
-        }
-        
 
-        
-        yield return new WaitForSeconds(0.1f);
-
-        if(temp != null)
-        {
-            MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+            if (position == 0)
+            {
+                temp = MyCore.NetCreateObject(14, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            }
+            else if (position == 1)
+            {
+                temp = MyCore.NetCreateObject(14, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            }
+            else if (position == 2)
+            {
+                temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            }
+            else if (position == 3)
+            {
+                temp = MyCore.NetCreateObject(13, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            }
+            else if (position == 4)
+            {
+                temp = MyCore.NetCreateObject(12, this.Owner, this.transform.position + this.transform.forward, Quaternion.identity);
+            }
+            temp.transform.parent = this.transform;
+            SendUpdate("CHLD", temp.GetComponent<NetworkID>().NetId.ToString());
+            canAtk = false;
         }
+
+            yield return new WaitForSeconds(1.5f);
+
+            if (temp != null)
+            {
+                MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+            }
+
+        canAtk = true;
     }
 
     // Start is called before the first frame update
