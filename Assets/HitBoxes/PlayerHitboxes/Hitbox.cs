@@ -53,16 +53,19 @@ public class Hitbox : NetworkComponent
 
         }
 
-        if(GameObject.Find("GameMaster").GetComponent<GameMaster>().phase_2 == true)
+        if (GameObject.Find("GameMaster") != null)
         {
-            if(collision.gameObject.GetComponent<NetworkPlayerController>().Owner != this.Owner)
+            if(GameObject.Find("GameMaster").GetComponent<GameMaster>().phase_2 == true)
             {
+                if(collision.gameObject.GetComponent<NetworkPlayerController>().Owner != this.Owner)
+                {
 
-                collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
+                    collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
 
-                NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
-                tempCont.health = tempCont.health - 10;
-                tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+                    NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+                    tempCont.health = tempCont.health - 10;
+                    tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+                }
             }
         }
     }

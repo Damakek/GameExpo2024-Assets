@@ -26,12 +26,12 @@ public class EnemyHitbox : NetworkComponent
 
     public override void NetworkedStart()
     {
-        throw new System.NotImplementedException();
+        //stuff
     }
 
     public override IEnumerator SlowUpdate()
     {
-        throw new System.NotImplementedException();
+        yield return new WaitForSeconds(.1f);
     }
 
     // Start is called before the first frame update
