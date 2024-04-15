@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using NETWORK_ENGINE;
+using System.Collections;
 using UnityEngine;
-using NETWORK_ENGINE;
 using UnityEngine.InputSystem;
 
 public class NetworkPlayerController : NetworkComponent
@@ -26,6 +25,7 @@ public class NetworkPlayerController : NetworkComponent
 
     public Vector2 lastDirection;
     public float speed;
+    public float speedUpdated;
 
     public Animator MyAnime;
     public float animationSpeed;
@@ -35,8 +35,28 @@ public class NetworkPlayerController : NetworkComponent
     public bool isBlocking = false;
 
     public Vector2 lastMoveCmd = Vector2.zero;
+
+
+
     public override void HandleMessage(string flag, string value)
     {
+
+        
+        if(flag == "SPEED")
+        {
+            speedUpdated = float.Parse(value);
+
+            if(IsServer)
+            {
+                speed = speedUpdated;
+                SendUpdate("SPEED", speed.ToString());
+            }
+            if(IsClient)
+            {
+                speed = speedUpdated;
+            }
+        }
+        
         if (flag == "MOVE")
         {
             if (IsServer)
@@ -182,6 +202,8 @@ public class NetworkPlayerController : NetworkComponent
         }
     }
 
+    
+
     public override void NetworkedStart()
     {
         MyRig = this.GetComponent<Rigidbody>();
@@ -270,6 +292,7 @@ public class NetworkPlayerController : NetworkComponent
                 {
                     SendUpdate("HEALTH", health.ToString());
                     SendUpdate("SCORE", score.ToString());
+                    SendUpdate("SPEED", speed.ToString());
                     
                     IsDirty = false;
                 }
@@ -349,6 +372,7 @@ public class NetworkPlayerController : NetworkComponent
        
             MyAnime.SetFloat("speedh", animationSpeed);
             
+
 
         }
     }
