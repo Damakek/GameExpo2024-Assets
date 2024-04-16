@@ -49,7 +49,7 @@ public class SpeedCollectible : BaseCollectible
             {
                 for (int i = 0; i < playerControllers.Length; i++)
                 {
-                    playerControllers[i].speed = float.Parse(value);
+                    playerControllers[i].speed = playerControllers[i].speed + float.Parse(value);
   
                 }
             }
@@ -120,8 +120,8 @@ public class SpeedCollectible : BaseCollectible
             {
                 //cosmetic.Add(MyCore.NetCreateObject(2, playerControllers[i].Owner, new Vector3(playerControllers[i].transform.position.x, playerControllers[i].transform.position.y + 2f, playerControllers[i].transform.position.z)));
                 //cosmetic[i].transform.parent = playerControllers[i].transform;
-                playerControllers[i].speed = 15f;
-                SendUpdate("SPD", "15" );
+                playerControllers[i].speed = playerControllers[i].speed + 5f;
+                SendUpdate("SPD", "5" );
             }
             hasRun = true;
         }
@@ -132,8 +132,8 @@ public class SpeedCollectible : BaseCollectible
         for (int i = 0; i < playerControllers.Length; i++)
         {
             //MyCore.NetDestroyObject(cosmetic[i].GetComponent<NetworkID>().NetId);
-            playerControllers[i].speed = 12f;
-            SendUpdate("SPD", "12");
+            playerControllers[i].speed = playerControllers[i].speed - 5f;
+            SendUpdate("SPD", "-5");
         }
         //cosmetic.Clear();
         hasRun = false;

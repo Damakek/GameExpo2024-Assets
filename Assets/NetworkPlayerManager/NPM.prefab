@@ -402,8 +402,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -615,8 +615,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1396,6 +1396,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 2.000061
       objectReference: {fileID: 0}
+    - target: {fileID: 4229698595909041974, guid: 08b781d72c9fc9c4a813750a7e22303e, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+    - target: {fileID: 4229698595909041974, guid: 08b781d72c9fc9c4a813750a7e22303e, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+    - target: {fileID: 4701276982625896245, guid: 08b781d72c9fc9c4a813750a7e22303e, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+    - target: {fileID: 4701276982625896245, guid: 08b781d72c9fc9c4a813750a7e22303e, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
     - target: {fileID: 5042995602774628990, guid: 08b781d72c9fc9c4a813750a7e22303e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1619,6 +1635,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 915326141636491301}
+    - target: {fileID: 3637979108476125204, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+    - target: {fileID: 3637979108476125204, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
     - target: {fileID: 3773078442940595267, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
       propertyPath: m_Name
       value: Panel (2)
@@ -1707,6 +1731,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5327776287396231191, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+    - target: {fileID: 5327776287396231191, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
     - target: {fileID: 5381262674730524536, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
       propertyPath: m_Text
       value: Health
@@ -1926,6 +1958,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 2386773255218326150, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+    - target: {fileID: 2386773255218326150, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
     - target: {fileID: 2468394856646512105, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
       propertyPath: m_Text
       value: Health
@@ -1982,6 +2022,14 @@ PrefabInstance:
       propertyPath: m_FontData.m_Alignment
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6526603535657964165, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
+    - target: {fileID: 6526603535657964165, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
     - target: {fileID: 6679752169531961042, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
       propertyPath: m_Name
       value: Panel (1)
