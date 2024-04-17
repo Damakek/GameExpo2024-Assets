@@ -3266,7 +3266,7 @@ GameObject:
   - component: {fileID: 461582654766085350}
   - component: {fileID: 6255455813614438513}
   - component: {fileID: 6556562168840856009}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hero
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -3432,11 +3432,13 @@ MonoBehaviour:
   temp: {fileID: 0}
   lastDirection: {x: 0, y: 0}
   speed: 12
+  speedUpdated: 0
   MyAnime: {fileID: 3386917771845022300}
   animationSpeed: 0
   lastFace: {x: 0, y: 0, z: 0}
   isMoving: 0
   isBlocking: 0
+  canAtk: 1
   lastMoveCmd: {x: 0, y: 0}
 --- !u!114 &6255455813614438513
 MonoBehaviour:

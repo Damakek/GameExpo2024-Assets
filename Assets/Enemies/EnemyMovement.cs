@@ -18,6 +18,8 @@ public class EnemyMovement : NetworkComponent
     public int targetInd;
     public bool canAtk = true;
     public int detectionRange;
+    public bool isHit = false;
+    public bool isHitRunning = false;
 
     public GameObject[] collectiblePrefabs;
     public GameObject temp;
@@ -36,25 +38,32 @@ public class EnemyMovement : NetworkComponent
             {
                 if(value == "HI")
                 {
-                    MyAnime.Play("Idle - Run");
+                    //MyAnime.Play("Idle - Run");
                     MyAnime.SetFloat("speedh", 1);
                 }
                 if(value == "SP")
                 {
                     MyAnime.SetFloat("speedh", 0);
                 }
-                if(value == "ATK")
-                {
-                    MyAnime.SetTrigger("Attack");
-                    MyAnime.Play("Right Hook");
-                }
+            }
+
+            if(flag == "HIT")
+            {
+                MyAnime.SetTrigger("Flinch");
+            }
+            if(flag == "ATK")
+            {
+                MyAnime.SetTrigger("Attack");
             }
         }
     }
 
     public override void NetworkedStart()
     {
-        
+        if (IsClient)
+        {
+            MyAnime.SetFloat("speedh", 1f);
+        }
     }
 
     public override IEnumerator SlowUpdate()
@@ -100,44 +109,52 @@ public class EnemyMovement : NetworkComponent
 
             if (IsServer)
             {
-
-                foreach (NetworkPlayerController go in players)
+                if (isHit && !isHitRunning)
                 {
-                    if (Vector3.Distance(go.transform.position, MyAgent.transform.position) <= detectionRange)
+
+                    StartCoroutine(BeenHit());
+                }
+
+                if (!isHit || canAtk)
+                {
+                    foreach (NetworkPlayerController go in players)
                     {
-                        //Debug.Log(Vector3.Distance(go.transform.position, MyAgent.transform.position));
-                        MyAgent.SetDestination(go.transform.position);
+                        if (Vector3.Distance(go.transform.position, MyAgent.transform.position) <= detectionRange)
+                        {
+                            //Debug.Log(Vector3.Distance(go.transform.position, MyAgent.transform.position));
+                            MyAgent.SetDestination(go.transform.position);
+                            isMoving = true;
+                            SendUpdate("MV", "HI");
+                        }
+
+                        if (canAtk == true && Vector3.Distance(go.transform.position, MyAgent.transform.position) < 3)
+                        {
+                            SendUpdate("ATK", "ATK");
+                            StartCoroutine(AtkCd());
+                        }
+                    }
+
+                    //Vector3 direction = Goals[targetInd] - transform.position;
+                    //transform.forward = direction;
+
+                    if (isMoving == false)
+                    {
+                        targetInd = PickTarget();
+                        MyAgent.SetDestination(Goals[targetInd]);
                         isMoving = true;
+                        //MyAnime.SetFloat("speedh", 1);
+                        Vector3 direction = Goals[targetInd] - transform.position;
+                        transform.forward = direction;
                         SendUpdate("MV", "HI");
+
                     }
-                    
-                    if(canAtk == true && Vector3.Distance(go.transform.position, MyAgent.transform.position) < 5)
+                    else if (MyAgent.remainingDistance <= MyAgent.stoppingDistance)
                     {
-                        StartCoroutine(AtkCd());
+                        isMoving = false;
+                        //MyAnime.SetFloat("speedh", 0);
+                        SendUpdate("MV", "SP");
                     }
                 }
-
-                //Vector3 direction = Goals[targetInd] - transform.position;
-                //transform.forward = direction;
-
-                if (isMoving == false)
-                {
-                    targetInd = PickTarget();
-                    MyAgent.SetDestination(Goals[targetInd]);
-                    isMoving = true;
-                    MyAnime.SetFloat("speedh", 1);
-                    Vector3 direction = Goals[targetInd] - transform.position;
-                    transform.forward = direction;
-                    SendUpdate("MV", "HI");
-
-                }
-                else if (MyAgent.remainingDistance <= MyAgent.stoppingDistance)
-                {
-                    isMoving = false;
-                    MyAnime.SetFloat("speedh", 0);
-                    SendUpdate("MV", "SP");
-                }
-
             }
         }
         
@@ -149,9 +166,9 @@ public class EnemyMovement : NetworkComponent
         return temp;
     }
 
-    public IEnumerator AtkCd(float time = 0.5f)
+    public IEnumerator AtkCd(float time = 1.5f)
     {
-
+        MyAgent.isStopped = true;
         if(temp != null)
         {
             MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
@@ -159,10 +176,10 @@ public class EnemyMovement : NetworkComponent
 
         canAtk = false;
 
-        if(IsServer)
+        /*if(IsServer)
         {
             SendUpdate("MV", "ATK");
-        }
+        }*/
 
         temp = MyCore.NetCreateObject(15, -1, this.transform.position + this.transform.forward, Quaternion.identity);
 
@@ -174,7 +191,9 @@ public class EnemyMovement : NetworkComponent
             MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
         }
 
+        MyAgent.isStopped = false;
         canAtk = true;
+        
         
     }
 
@@ -183,7 +202,7 @@ public class EnemyMovement : NetworkComponent
         if (health == 0)
         {
             int odds = Random.Range(0, 99);
-            if(odds < 99)
+            if(odds < 25)
             {
                 int ind = Random.Range(0, collectiblePrefabs.Length);
                 MyCore.NetCreateObject(ind + 2, Owner, new Vector3(this.transform.position.x, this.transform.position.y - 0.3f, this.transform.position.z), Quaternion.identity);
@@ -191,5 +210,16 @@ public class EnemyMovement : NetworkComponent
             }
             
         }
+    }
+
+    public IEnumerator BeenHit()
+    {
+        isHitRunning = true;
+        MyAgent.isStopped = true;
+        SendUpdate("HIT", "");
+        yield return new WaitForSeconds(2.5f);
+        MyAgent.isStopped = false;
+        isHitRunning = false;
+        isHit = false;
     }
 }

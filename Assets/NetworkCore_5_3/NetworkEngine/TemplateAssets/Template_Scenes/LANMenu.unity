@@ -2631,6 +2631,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7852108043472008642, guid: b189560995829b94ebe7ddda0caac4e4, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 377174408600506886, guid: b189560995829b94ebe7ddda0caac4e4, type: 3}
       propertyPath: m_Name
       value: Skeleton Soldier
@@ -11920,6 +11924,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 134007030776229152, guid: ca4c10454998fd140b13dce14916f342, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2081137793389510457, guid: ca4c10454998fd140b13dce14916f342, type: 3}
       propertyPath: m_Name
       value: Enemy Spawner
@@ -11927,6 +11935,10 @@ PrefabInstance:
     - target: {fileID: 2081137793389510457, guid: ca4c10454998fd140b13dce14916f342, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3007147186403321607, guid: ca4c10454998fd140b13dce14916f342, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9192233455739220762, guid: ca4c10454998fd140b13dce14916f342, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12052,6 +12064,10 @@ PrefabInstance:
     - target: {fileID: 7384334481653900979, guid: e6147e039513b224d853adedc1c719d5, type: 3}
       propertyPath: m_Name
       value: GameMaster
+      objectReference: {fileID: 0}
+    - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
+      propertyPath: phase1_done
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
