@@ -1,5 +1,7 @@
 ﻿using NETWORK_ENGINE;
+using System;
 using System.Collections;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -42,6 +44,8 @@ public class NetworkPlayerController : NetworkComponent
 
     public Vector2 lastMoveCmd = Vector2.zero;
 
+    public bool isHit = false;
+    public bool isHitRunning = false;
 
 
     public override void HandleMessage(string flag, string value)
@@ -69,28 +73,35 @@ public class NetworkPlayerController : NetworkComponent
             {
                 if (isBlocking)
                 {
-                    lastDirection.x = 0;
-                    lastDirection.y = 0;
-                    SendUpdate("MOVE", "moving");
+                    if(value != "-1,-1")
+                    {
+                        lastDirection.x = 0;
+                        lastDirection.y = 0;
+                        SendUpdate("MOVE", "-1,-1");
+                    }
                 }
                 if(!isBlocking)
                 {
-                    string[] numbers = value.Split(',');
-
-                    lastDirection.x = float.Parse(numbers[0]);
-                    if (numbers.Length > 1)
+                    if(value != "-1,-1")
                     {
-                        lastDirection.y = float.Parse(numbers[1]);
-                    }
-                    else
-                    {
-                        lastDirection.y = float.Parse(numbers[0]);
-                    }
+                        string[] numbers = value.Split(',');
 
-                    transform.forward = new Vector3(lastDirection.x, 0, lastDirection.y);
+                        lastDirection.x = float.Parse(numbers[0]);
+                        if (numbers.Length > 1)
+                        {
+                            lastDirection.y = float.Parse(numbers[1]);
+                        }
+                        else
+                        {
+                            lastDirection.y = float.Parse(numbers[0]);
+                        }
 
-                    float speed = MyRig.velocity.magnitude;
-                    SendUpdate("MOVE", "moving");
+                        transform.forward = new Vector3(lastDirection.x, 0, lastDirection.y);
+
+                        float speed = MyRig.velocity.magnitude;
+                        SendUpdate("MOVE", "-1,-1");
+                    }
+                    
                 }
             }
             if (IsClient)
@@ -142,6 +153,7 @@ public class NetworkPlayerController : NetworkComponent
             {
                 if (!isBlocking)
                 {
+                    canAtk = false;
                     MyAnime.SetTrigger("Attack");
                 }
             }
@@ -236,6 +248,21 @@ public class NetworkPlayerController : NetworkComponent
                 SendUpdate("SCORE", score.ToString());
             }
         }
+        if(flag == "HIT")
+        {
+            if (IsClient)
+            {
+                MyAnime.SetTrigger("Flinch");
+            }
+            
+        }
+        if(flag == "CLDOWN")
+        {
+            if (IsClient)
+            {
+                canAtk = true;
+            }
+        }
     }
 
     
@@ -297,7 +324,11 @@ public class NetworkPlayerController : NetworkComponent
         {
             if (context.action.phase == InputActionPhase.Started)
             {
-                SendCommand("ATK", "start attack");
+                if (canAtk)
+                {
+                    SendCommand("ATK", "start attack");
+                }
+                
             }
         }
 
@@ -363,6 +394,7 @@ public class NetworkPlayerController : NetworkComponent
             }
 
         canAtk = true;
+        SendUpdate("CLDOWN", "");
     }
 
     // Start is called before the first frame update
@@ -374,6 +406,12 @@ public class NetworkPlayerController : NetworkComponent
     // Update is called once per frame
     void Update()
     {
+        if(isHit)
+        {
+            SendUpdate("HIT", "");
+            StartCoroutine(Hit());
+        }
+
         if(IsServer && MyRig != null)
         {
             Vector3 tv = new Vector3(lastDirection.x, 0, lastDirection.y).normalized * speed;
@@ -400,5 +438,13 @@ public class NetworkPlayerController : NetworkComponent
         }
     }
 
-    
+    public IEnumerator Hit()
+    {
+        isHitRunning = true;
+
+        yield return new WaitForSeconds(0.7f);
+
+        isHit = false;
+        isHitRunning = false;
+    }
 }

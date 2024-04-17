@@ -17,8 +17,15 @@ public class EnemyHitbox : NetworkComponent
             if(!collision.gameObject.GetComponent<NetworkPlayerController>().isBlocking == true)
             {
                 NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+                if(tempCont.canAtk == true)
+                {
+                    tempCont.isHit = true;
+                    tempCont.health = tempCont.health - 10;
+                    tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+                }
+                /*tempCont.isHit = true;
                 tempCont.health = tempCont.health - 10;
-                tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+                tempCont.SendUpdate("HEALTH", tempCont.health.ToString());*/
             }
        
         }
