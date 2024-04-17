@@ -52,24 +52,6 @@ public class NetworkPlayerManager : NetworkComponent
             }
         }
 
-        if(flag == "HUP")
-        {
-            if(IsServer)
-            {
-                foreach(NetworkPlayerController player in playerControllers)
-                {
-                        Debug.Log("Setting health");
-                        NetworkPlayerController tempCon = player;
-                        tempCon.health += 50;
-                        tempCon.score -= 50;
-
-                        tempCon.SendUpdate("HEALTH", tempCon.health.ToString());
-                        tempCon.SendUpdate("SCORE", tempCon.score.ToString());
-                    
-                }
-            }
-        }
-
         if (flag == "NAME")
         {
             PName = value;
@@ -131,6 +113,21 @@ public class NetworkPlayerManager : NetworkComponent
             if (IsLocalPlayer)
             {
                 SpeedDisplay.text = updatedText;
+            }
+        }
+
+        if(flag == "DT")
+        {
+            string updatedText = value;
+
+            if(IsServer)
+            {
+                DamageDisplay.text = updatedText;
+                SendUpdate("DT", DamageDisplay.text);
+            }
+            if(IsLocalPlayer)
+            {
+                DamageDisplay.text = updatedText;
             }
         }
     } 
@@ -217,25 +214,36 @@ public class NetworkPlayerManager : NetworkComponent
         }
     }
 
-    /*
+    
     public void IncreaseDamage()
     {
-        if (IsServer)
+        if(IsLocalPlayer)
         {
-            SendUpdate("SCORE", (score - 50).ToString());
-            SendUpdate("HEALTH", (health + 5).ToString());
+            foreach(NetworkPlayerController playercharacter in playerControllers)
+            {
+                if(playercharacter.Owner == this.Owner)
+                {
+                    playercharacter.SendCommand("SCORE", (playercharacter.score - 50).ToString());
+                    playercharacter.SendCommand("DAMAGE", (playercharacter.damage + 1).ToString());
+                }
+            }
         }
     }
 
     public void DecreaseDamage()
     {
-        if (IsServer)
+        if (IsLocalPlayer)
         {
-            SendUpdate("SCORE", (score - 50).ToString());
-            SendUpdate("HEALTH", (health + 5).ToString());
+            foreach (NetworkPlayerController playercharacter in playerControllers)
+            {
+                if (playercharacter.Owner == this.Owner)
+                {
+                    playercharacter.SendCommand("SCORE", (playercharacter.score + 50).ToString());
+                    playercharacter.SendCommand("DAMAGE", (playercharacter.damage - 1).ToString());
+                }
+            }
         }
     }
-    */
 
 
     public override void NetworkedStart()
@@ -283,6 +291,7 @@ public class NetworkPlayerManager : NetworkComponent
                     SendUpdate("ST", ScoreDisplay.text);
                     SendUpdate("HT", HealthDisplay.text);
                     SendUpdate("SPT", SpeedDisplay.text);
+                    SendUpdate("DT", DamageDisplay.text);
                     IsDirty = false;
                 }
             }
@@ -296,7 +305,7 @@ public class NetworkPlayerManager : NetworkComponent
                         playerM.ScoreDisplay.text = player.score.ToString();
                         playerM.HealthDisplay.text = player.health.ToString();
                         playerM.SpeedDisplay.text = player.speed.ToString();
-                        //SendCommand("ST", player.score.ToString());
+                        playerM.DamageDisplay.text = player.damage.ToString();
                     }
                 }
             }

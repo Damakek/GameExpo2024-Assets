@@ -49,7 +49,13 @@ public class Hitbox : NetworkComponent
 
             collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 20, ForceMode.Impulse);
 
-            collision.gameObject.GetComponent<EnemyMovement>().health -= 1;
+            foreach(NetworkPlayerController playercharacter in players)
+            {
+                if(playercharacter.Owner == this.Owner)
+                {
+                    collision.gameObject.GetComponent<EnemyMovement>().health -= playercharacter.damage;
+                }
+            }
 
         }
 
@@ -63,7 +69,15 @@ public class Hitbox : NetworkComponent
                     collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
 
                     NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
-                    tempCont.health = tempCont.health - 10;
+                    
+                    foreach(NetworkPlayerController playercharacter in players)
+                    {
+                        if(playercharacter.Owner == this.Owner)
+                        {
+                            tempCont.health = tempCont.health - playercharacter.damage;
+                        }
+                    }
+                    
                     tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
                 }
             }
