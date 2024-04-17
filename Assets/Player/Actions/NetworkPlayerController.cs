@@ -10,6 +10,7 @@ public class NetworkPlayerController : NetworkComponent
 
     public int health = 50;
     public int score = 0;
+    
     public int updatedHealth;
     public int updatedScore;
 
@@ -19,6 +20,9 @@ public class NetworkPlayerController : NetworkComponent
     public int stun;
 
     public int scorePerHit = 100;
+    public int damage = 5;
+    public int updatedDamage;
+
 
     public Rigidbody MyRig;
     public GameObject temp;
@@ -205,6 +209,22 @@ public class NetworkPlayerController : NetworkComponent
             }
         }
 
+        if(flag == "DAMAGE")
+        {
+            updatedDamage = int.Parse(value);
+
+            if(IsServer)
+            {
+                damage = updatedDamage;
+                SendUpdate("DAMAGE", value);
+            }
+            if(IsClient)
+            {
+                damage = updatedDamage;
+            }
+
+        }
+
         if (flag == "EHIT")
         {
 
@@ -309,6 +329,7 @@ public class NetworkPlayerController : NetworkComponent
                     SendUpdate("HEALTH", health.ToString());
                     SendUpdate("SCORE", score.ToString());
                     SendUpdate("SPEED", speed.ToString());
+                    SendUpdate("DAMAGE", damage.ToString());
                     
                     IsDirty = false;
                 }

@@ -1390,7 +1390,7 @@ PrefabInstance:
       objectReference: {fileID: 3626813406296184545}
     - target: {fileID: 529239745937431117, guid: 08b781d72c9fc9c4a813750a7e22303e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3.5
+      value: -3.5000038
       objectReference: {fileID: 0}
     - target: {fileID: 2018960161147315089, guid: 08b781d72c9fc9c4a813750a7e22303e, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1634,7 +1634,11 @@ PrefabInstance:
     - target: {fileID: 170801247750572367, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 915326141636491301}
+      objectReference: {fileID: 3626813406296184545}
+    - target: {fileID: 170801247750572367, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: IncreaseDamage
+      objectReference: {fileID: 0}
     - target: {fileID: 3637979108476125204, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -1802,7 +1806,11 @@ PrefabInstance:
     - target: {fileID: 8630821387361261732, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 915326141636491301}
+      objectReference: {fileID: 3626813406296184545}
+    - target: {fileID: 8630821387361261732, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DecreaseDamage
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
