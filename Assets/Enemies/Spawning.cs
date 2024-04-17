@@ -64,7 +64,7 @@ public class Spawning : NetworkComponent
     {
         isRunning = true;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         int spawnsight = Random.Range(0, spawners.Count);
         int enemyType = Random.Range(0, 3);

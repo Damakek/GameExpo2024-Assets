@@ -21,7 +21,7 @@ public class GameMaster : NetworkComponent
 
     public bool uiI = true;
 
-    public int phase1_done = 10;
+    public int phase1_done = 30;
     public int phase2_done = 30;
 
     public override void HandleMessage(string flag, string value)
@@ -188,7 +188,22 @@ public class GameMaster : NetworkComponent
 
             if(IsServer)
             {
-                if(IsDirty)
+                if(phase1_done == 0)
+                {
+                    EnemyMovement[] enemies = GameObject.FindObjectsOfType<EnemyMovement>();
+                    EnemyHitbox[] eHitboxes = GameObject.FindObjectsOfType<EnemyHitbox>();
+
+                    foreach (EnemyMovement enemy in enemies)
+                    {
+                        MyCore.NetDestroyObject(enemy.NetId);
+                    }
+                    foreach (EnemyHitbox ehitbox in eHitboxes)
+                    {
+                        MyCore.NetDestroyObject(ehitbox.NetId);
+                    }
+                }
+
+                if (IsDirty)
                 {
                     IsDirty = false;
                 }
@@ -342,6 +357,7 @@ public class GameMaster : NetworkComponent
                 {
                     phase_1 = false;
                     EnemyMovement[] enemies = GameObject.FindObjectsOfType<EnemyMovement>();
+                    EnemyHitbox[] eHitboxes = GameObject.FindObjectsOfType<EnemyHitbox>();
 
                     foreach (EnemyMovement enemy in enemies)
                     {
@@ -351,6 +367,14 @@ public class GameMaster : NetworkComponent
                     StartCoroutine(scoreboard());
                     upgPhase = true;
                     SendUpdate("SCORE", "scoreboard");
+                    foreach (EnemyMovement enemy in enemies)
+                    {
+                        MyCore.NetDestroyObject(enemy.NetId);
+                    }
+                    foreach(EnemyHitbox ehitbox in eHitboxes)
+                    {
+                        MyCore.NetDestroyObject(ehitbox.NetId);
+                    }
                 }
             }
 
@@ -360,6 +384,22 @@ public class GameMaster : NetworkComponent
 
     public IEnumerator scoreboard()
     {
+        if(IsServer)
+        {
+            EnemyMovement[] enemies = GameObject.FindObjectsOfType<EnemyMovement>();
+            EnemyHitbox[] eHitboxes = GameObject.FindObjectsOfType<EnemyHitbox>();
+
+            foreach (EnemyMovement enemy in enemies)
+            {
+                MyCore.NetDestroyObject(enemy.NetId);
+            }
+            foreach (EnemyHitbox ehitbox in eHitboxes)
+            {
+                MyCore.NetDestroyObject(ehitbox.NetId);
+            }
+        }
+        
+
         this.transform.GetChild(0).gameObject.SetActive(false);
         
         if(IsServer)
@@ -369,7 +409,22 @@ public class GameMaster : NetworkComponent
                 player.SendUpdate("UPG", upgPhase.ToString());
             }
         }
-        
+
+        if(IsServer)
+        {
+            EnemyMovement[] enemies = GameObject.FindObjectsOfType<EnemyMovement>();
+            EnemyHitbox[] eHitboxes = GameObject.FindObjectsOfType<EnemyHitbox>();
+
+            foreach (EnemyMovement enemy in enemies)
+            {
+                MyCore.NetDestroyObject(enemy.NetId);
+            }
+            foreach (EnemyHitbox ehitbox in eHitboxes)
+            {
+                MyCore.NetDestroyObject(ehitbox.NetId);
+            }
+        }
+
         yield return new WaitForSeconds(15f);
 
         this.transform.GetChild(0).gameObject.SetActive(true);
@@ -383,6 +438,8 @@ public class GameMaster : NetworkComponent
     
     public IEnumerator phase2()
     {
+
+
         int playersDead = 0;
 
         while(playersDead < players.Length - 1)

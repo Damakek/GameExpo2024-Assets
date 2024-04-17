@@ -1741,7 +1741,7 @@ PrefabInstance:
       objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
     - target: {fileID: 5381262674730524536, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
       propertyPath: m_Text
-      value: Health
+      value: Damage
       objectReference: {fileID: 0}
     - target: {fileID: 5381262674730524536, guid: 6801eaa8326516e4fa67f762f2fb0913, type: 3}
       propertyPath: m_Color.b
@@ -1968,7 +1968,7 @@ PrefabInstance:
       objectReference: {fileID: 2180264, guid: d097cc2e8d56f5741a402ab2b14da320, type: 2}
     - target: {fileID: 2468394856646512105, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
       propertyPath: m_Text
-      value: Health
+      value: Speed
       objectReference: {fileID: 0}
     - target: {fileID: 2468394856646512105, guid: b9ada71710c36a84694ee48e4e26515b, type: 3}
       propertyPath: m_Color.b

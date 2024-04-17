@@ -47,7 +47,7 @@ public class Hitbox : NetworkComponent
         {
             enemyHit?.Invoke();
 
-            collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 5, ForceMode.Impulse);
+            collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 20, ForceMode.Impulse);
 
             collision.gameObject.GetComponent<EnemyMovement>().health -= 1;
 

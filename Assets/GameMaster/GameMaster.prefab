@@ -1570,14 +1570,16 @@ MonoBehaviour:
   GameStarted: 0
   phase_1: 0
   phase_2: 0
+  upgPhase: 0
   allPlayersReady: 0
   playersJoined: 0
   players: []
   characters: []
   playerInfo: []
   temp: {fileID: 0}
-  phase1_done: 10
-  phase2_done: 50
+  uiI: 1
+  phase1_done: 30
+  phase2_done: 30
 --- !u!1 &7625401346216631801
 GameObject:
   m_ObjectHideFlags: 0

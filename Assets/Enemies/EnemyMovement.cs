@@ -23,7 +23,7 @@ public class EnemyMovement : NetworkComponent
     public GameObject temp;
 
 
-    public int health = 50;
+    public int health = 5;
 
 
     public Animator MyAnime;

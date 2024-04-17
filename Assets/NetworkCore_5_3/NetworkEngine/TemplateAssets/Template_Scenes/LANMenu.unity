@@ -12053,14 +12053,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameMaster
       objectReference: {fileID: 0}
-    - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
-      propertyPath: phase1_done
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
-      propertyPath: phase2_done
-      value: 30
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
