@@ -307,7 +307,7 @@ public class GameMaster : NetworkComponent
 
         while (allPlayersReady == false)
         {
-            if (players.Length != 0)
+            if (players.Length > 1)
             {
                 for (int i = 0; i < players.Length; i++)
                 {
