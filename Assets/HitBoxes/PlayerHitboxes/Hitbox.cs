@@ -46,9 +46,7 @@ public class Hitbox : NetworkComponent
         if (collision.gameObject.CompareTag("Enemy"))
         {
             enemyHit?.Invoke();
-
-            collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 20, ForceMode.Impulse);
-
+            
             foreach(NetworkPlayerController playercharacter in players)
             {
                 if(playercharacter.Owner == this.Owner)
@@ -56,7 +54,11 @@ public class Hitbox : NetworkComponent
                     collision.gameObject.GetComponent<EnemyMovement>().health -= playercharacter.damage;
                 }
             }
-
+            if(!collision.gameObject.GetComponent<EnemyMovement>().isHit) 
+            {
+                collision.gameObject.GetComponent<EnemyMovement>().isHit = true;
+                //collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 20, ForceMode.VelocityChange);
+            }
         }
 
         if (GameObject.Find("GameMaster") != null)
@@ -66,7 +68,7 @@ public class Hitbox : NetworkComponent
                 if(collision.gameObject.GetComponent<NetworkPlayerController>().Owner != this.Owner)
                 {
 
-                    collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
+                    //collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
 
                     NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
                     

@@ -52,7 +52,7 @@ public class Spawning : NetworkComponent
     {
         if (IsServer)
         {
-            if (FindObjectOfType<GameMaster>().phase1_done != 0 && isRunning == false)
+            if (FindObjectOfType<GameMaster>().phase1_done != 0 && isRunning == false  && FindObjectOfType<GameMaster>().allPlayersReady == true)
             {
                 StartCoroutine(SpawnEnemies());
             }
@@ -64,7 +64,7 @@ public class Spawning : NetworkComponent
     {
         isRunning = true;
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
 
         int spawnsight = Random.Range(0, spawners.Count);
         int enemyType = Random.Range(0, 3);
