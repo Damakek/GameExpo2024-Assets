@@ -166,6 +166,14 @@ public class EnemyMovement : NetworkComponent
         return temp;
     }
 
+    public void OnDestroy()
+    {
+        if(temp != null)
+        {
+            MyCore.NetDestroyObject(temp.GetComponent<NetworkID>().NetId);
+        }
+    }
+
     public IEnumerator AtkCd(float time = 1.5f)
     {
         MyAgent.isStopped = true;

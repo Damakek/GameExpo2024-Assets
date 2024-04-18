@@ -189,7 +189,7 @@ namespace NETWORK_ENGINE
             }
             try
             {
-                if (MyCore == null)
+                while (MyCore == null)
                 {
                     if (!UseLobby)
                     {
