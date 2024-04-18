@@ -164,31 +164,34 @@ public class GameMaster : NetworkComponent
 
     public override void NetworkedStart()
     {
-        if (IsServer)
-        {
-            StartCoroutine(checkForReady());
-        }
+        
     }
 
 
 
     public override IEnumerator SlowUpdate()
     {
+
+        if (IsServer)
+        {
+            StartCoroutine(checkForReady());
+        }
+
         while (MyCore.IsConnected)
         {
 
             players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
             characters = GameObject.FindObjectsOfType<NetworkPlayerController>();
 
-            
-            SendUpdate("CHECK", "check");
-            SendUpdate("UI", "ui");
-
-
 
             if(IsServer)
             {
-                if(phase1_done == 0)
+
+                SendUpdate("CHECK", "check");
+                SendUpdate("UI", "ui");
+
+
+                if (phase1_done == 0)
                 {
                     EnemyMovement[] enemies = GameObject.FindObjectsOfType<EnemyMovement>();
                     EnemyHitbox[] eHitboxes = GameObject.FindObjectsOfType<EnemyHitbox>();
@@ -258,44 +261,6 @@ public class GameMaster : NetworkComponent
                     //GameObject.Find("P4Name").GetComponent<Text>().text = character.name;
                     GameObject.Find("P4Health").GetComponent<Text>().text = character.health.ToString();
                     GameObject.Find("P4Score").GetComponent<Text>().text = character.score.ToString();
-                }
-            }
-        }
-
-        NetworkPlayerController[] positions = characters;
-
-        NetworkPlayerController temp;
-        bool swapped;
-
-        for (int i = 0; i < positions.Length - 1; i++)
-        {
-            swapped = false;
-            for (int j = 0; j < positions.Length - i - 1; j++)
-            {
-                if (positions[j].score > positions[j + 1].score)
-                {
-
-                    // Swap arr[j] and arr[j+1]
-                    temp = positions[j];
-                    positions[j] = positions[j + 1];
-                    positions[j + 1] = temp;
-                    swapped = true;
-                }
-            }
-
-            // If no two elements were
-            // swapped by inner loop, then break
-            if (swapped == false)
-                break;
-        }
-
-        for (int i = 0; i < characters.Length; i++)
-        {
-            for (int j = 0; j < positions.Length; j++)
-            {
-                if (characters[i].GetComponent<NetworkPlayerController>().Owner == positions[j].GetComponent<NetworkPlayerController>().Owner)
-                {
-                    characters[i].GetComponent<NetworkPlayerController>().position = j + 1;
                 }
             }
         }
