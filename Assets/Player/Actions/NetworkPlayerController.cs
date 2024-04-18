@@ -37,6 +37,7 @@ public class NetworkPlayerController : NetworkComponent
     public Vector3 lastFace = Vector3.zero;
     public bool isMoving = false;
     public bool isBlocking = false;
+    public bool canMove = true;
 
     public bool canAtk = true;
 
@@ -78,12 +79,12 @@ public class NetworkPlayerController : NetworkComponent
                         SendUpdate("MOVE", "-1,-1");
                     }
                 }
-                if(!isBlocking)
+                if(!isBlocking && canMove)
                 {
                     if(value != "-1,-1")
                     {
                         string[] numbers = value.Split(',');
-
+                        
                         lastDirection.x = float.Parse(numbers[0]);
                         if (numbers.Length > 1)
                         {
@@ -104,7 +105,7 @@ public class NetworkPlayerController : NetworkComponent
             }
             if (IsClient)
             {
-                if (!isBlocking)
+                if (!isBlocking && canMove)
                 {
                     string[] numbers = value.Split(',');
                     if (lastMoveCmd  != Vector2.zero)
@@ -153,6 +154,7 @@ public class NetworkPlayerController : NetworkComponent
                 {
                     canAtk = false;
                     MyAnime.SetTrigger("Attack");
+                    StartCoroutine(AtkStop());
                 }
             }
         }
@@ -234,7 +236,11 @@ public class NetworkPlayerController : NetworkComponent
             }
 
         }
-
+        if (flag == "CLDMOVE") {
+            if(IsClient) {
+                canMove = bool.Parse(value);
+            }
+        }
         if (flag == "EHIT")
         {
 
@@ -384,8 +390,20 @@ public class NetworkPlayerController : NetworkComponent
 
     }
 
+    public IEnumerator AtkStop() {
+        if(isMoving) {
+            yield return new WaitForSeconds(1f);
+            canMove = false;
+            yield return new WaitForSeconds(.5f);
+        } else {
+            canMove = false;
+            yield return new WaitForSeconds(1f);
+        }
+        canMove = true;
+    }
     public IEnumerator Attack()
     {
+        bool moveAtk = false;
         if (canAtk)
         {
             if (temp != null)
@@ -398,17 +416,23 @@ public class NetworkPlayerController : NetworkComponent
             temp.transform.parent = this.transform;
             SendUpdate("CHLD", temp.GetComponent<NetworkID>().NetId.ToString());
             canAtk = false;
-        }
-
-            yield return new WaitForSeconds(1.5f);
-
-            if (temp != null)
-            {
-                MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+            if(MyRig.velocity.magnitude > 0.05) {
+                moveAtk = true;
             }
+            canMove = moveAtk;
+            //SendUpdate("CLDMOVE",canMove.ToString());
+        }
+        yield return new WaitForSeconds(1f);
+        canMove = moveAtk;
+        yield return new WaitForSeconds(0.5f);
 
+        if (temp != null)
+        {
+            MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
+        }
         canAtk = true;
         SendUpdate("CLDOWN", "");
+        canMove = true;
     }
 
     // Start is called before the first frame update
