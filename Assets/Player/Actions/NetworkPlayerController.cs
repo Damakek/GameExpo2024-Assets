@@ -96,9 +96,10 @@ public class NetworkPlayerController : NetworkComponent
                         }
 
                         transform.forward = new Vector3(lastDirection.x, 0, lastDirection.y);
+                        animationSpeed = float.Parse(numbers[2]);
 
                         float speed = MyRig.velocity.magnitude;
-                        SendUpdate("MOVE", "-1,-1");
+                        SendUpdate("MOVE", lastDirection.x.ToString() +"," + lastDirection.y.ToString() + "," + animationSpeed.ToString());
                     }
                     
                 }
@@ -108,11 +109,12 @@ public class NetworkPlayerController : NetworkComponent
                 if (!isBlocking && canMove)
                 {
                     string[] numbers = value.Split(',');
-                    if (lastMoveCmd  != Vector2.zero)
+                    if (new Vector2(float.Parse(numbers[0]), float.Parse(numbers[1])) != Vector2.zero)
                     {
                         MyAnime.SetBool("isMoving", true);
                         isMoving = true;
-                        animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
+                        //animationSpeed = Mathf.Max(Mathf.Abs(float.Parse(numbers[0])), Mathf.Abs(float.Parse(numbers[1])));
+                        animationSpeed = float.Parse(numbers[2]);
                         float speed = MyRig.velocity.magnitude;
                     }
                     else
@@ -307,15 +309,17 @@ public class NetworkPlayerController : NetworkComponent
             if (context.action.phase == InputActionPhase.Started || context.action.phase == InputActionPhase.Performed)
             {
                 lastMoveCmd = new Vector2(context.ReadValue<Vector2>().x, context.ReadValue<Vector2>().y);
-                SendCommand("MOVE", context.ReadValue<Vector2>().x.ToString() + "," + context.ReadValue<Vector2>().y.ToString());
                 animationSpeed = Mathf.Max(Mathf.Abs(context.ReadValue<Vector2>().x), Mathf.Abs(context.ReadValue<Vector2>().y));
+                SendCommand("MOVE", context.ReadValue<Vector2>().x.ToString() + "," + context.ReadValue<Vector2>().y.ToString() + "," + animationSpeed.ToString());
+                //animationSpeed = Mathf.Max(Mathf.Abs(context.ReadValue<Vector2>().x), Mathf.Abs(context.ReadValue<Vector2>().y));
 
             }
             if (context.action.phase == InputActionPhase.Canceled)
             {
                 lastMoveCmd = Vector2.zero;
-                SendCommand("MOVE", "0");
                 animationSpeed = Mathf.Max(Mathf.Abs(0), Mathf.Abs(0));
+                SendCommand("MOVE", "0,0" + "," + animationSpeed.ToString());
+                //animationSpeed = Mathf.Max(Mathf.Abs(0), Mathf.Abs(0));
             }
         }
 
@@ -470,8 +474,9 @@ public class NetworkPlayerController : NetworkComponent
 
         if (IsClient)
         {
-       
+
             MyAnime.SetFloat("speedh", animationSpeed);
+            //MyAnime.SetFloat("speedh", 1f);
   
         }
     }

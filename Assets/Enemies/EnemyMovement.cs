@@ -202,10 +202,10 @@ public class EnemyMovement : NetworkComponent
         if (health == 0)
         {
             int odds = Random.Range(0, 99);
-            if(odds < 25)
+            if(odds < 99)
             {
                 int ind = Random.Range(0, collectiblePrefabs.Length);
-                temp  = MyCore.NetCreateObject(ind + 2, Owner, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+                temp  = MyCore.NetCreateObject(ind + 2, Owner, new Vector3(this.transform.position.x, this.transform.position.y + 0.2f, this.transform.position.z), Quaternion.identity);
                 temp.transform.localScale = new Vector3(12,12,12);
                 MyCore.NetDestroyObject(this.NetId);
             }
