@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 public class NetworkPlayerController : NetworkComponent
 {
 
-
-
     public int health = 50;
     public int score = 0;
     
@@ -324,7 +322,7 @@ public class NetworkPlayerController : NetworkComponent
         {
             if (context.action.phase == InputActionPhase.Started)
             {
-                if (canAtk)
+                if (canAtk && GameObject.FindObjectOfType<GameMaster>().upgPhase == false)
                 {
                     SendCommand("ATK", "start attack");
                 }
@@ -353,7 +351,23 @@ public class NetworkPlayerController : NetworkComponent
     {
         while(MyCore.IsConnected)
         {
-            if(IsServer)
+            if (IsServer)
+            {
+                if (health <= 0)
+                {
+                    score -= 100;
+                    SendUpdate("SCORE", (this.score - 100).ToString());
+                    if (GameObject.FindObjectOfType<GameMaster>().phase_1 == true)
+                    {
+                        health = 50;
+                        SendUpdate("HEALTH", 50.ToString());
+                    }
+                }
+
+
+            }
+
+            if (IsServer)
             {
                 if(IsDirty)
                 {
@@ -412,6 +426,8 @@ public class NetworkPlayerController : NetworkComponent
             StartCoroutine(Hit());
         }
 
+        
+
         if(IsServer && MyRig != null)
         {
             Vector3 tv = new Vector3(lastDirection.x, 0, lastDirection.y).normalized * speed;
@@ -432,9 +448,7 @@ public class NetworkPlayerController : NetworkComponent
         {
        
             MyAnime.SetFloat("speedh", animationSpeed);
-            
-
-
+  
         }
     }
 

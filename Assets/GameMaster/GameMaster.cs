@@ -100,7 +100,7 @@ public class GameMaster : NetworkComponent
                 }
                 //this.transform.GetChild(1).gameObject.SetActive(true);
                 */
-                upgPhase = true;
+                upgPhase = bool.Parse(value);
 
             }
         }
@@ -321,7 +321,7 @@ public class GameMaster : NetworkComponent
                 {
                     allPlayersReady = true;
                     GameObject.Find("LanNetworkManager").transform.GetChild(0).gameObject.SetActive(false);
-                    
+                    phase_1 = true;
                     SendUpdate("GAMESTART", "start");
                     StartCoroutine(phase1());
 
@@ -366,7 +366,7 @@ public class GameMaster : NetworkComponent
 
                     StartCoroutine(scoreboard());
                     upgPhase = true;
-                    SendUpdate("SCORE", "scoreboard");
+                    SendUpdate("SCORE", upgPhase.ToString());
                     foreach (EnemyMovement enemy in enemies)
                     {
                         MyCore.NetDestroyObject(enemy.NetId);
@@ -430,7 +430,9 @@ public class GameMaster : NetworkComponent
         this.transform.GetChild(0).gameObject.SetActive(true);
         this.transform.GetChild(1).gameObject.SetActive(false);
 
+        upgPhase = false;
         phase_2 = true;
+        SendUpdate("SCORE", upgPhase.ToString());
         SendUpdate("PHASE", "phase2");
         StartCoroutine(phase2());
     }
