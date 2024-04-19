@@ -24,6 +24,8 @@ public class GameMaster : NetworkComponent
     public int phase1_done = 30;
     public int phase2_done = 30;
 
+    public Text timerPanel;
+
     public override void HandleMessage(string flag, string value)
     {
         if (flag == "CHECK")
@@ -75,8 +77,10 @@ public class GameMaster : NetworkComponent
         {
             if (IsClient)
             {
-
+                GameStarted = bool.Parse(value);
                 phase_1 = true;
+
+                players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
 
                 foreach (NetworkPlayerManager player in players)
                 {
@@ -126,9 +130,8 @@ public class GameMaster : NetworkComponent
         {
             if(IsClient)
             {
-
                 phase1_done = int.Parse(value);
-                this.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = phase1_done.ToString();
+                timerPanel.text = phase1_done.ToString();
             }
         }
 
@@ -174,17 +177,91 @@ public class GameMaster : NetworkComponent
 
         if (IsServer)
         {
-            StartCoroutine(checkForReady());
+            players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
+
+            while (!GameStarted)
+            {
+                GameStarted = true;
+                players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
+                if (players.Length < 2)
+                {
+                    GameStarted = false;
+                }
+                foreach (NetworkPlayerManager pm in players)
+                {
+                    if (!pm.IsReady)
+                    {
+                        GameStarted = false;
+                    }
+                }
+                yield return new WaitForSeconds(.1f);
+            }
+            SendUpdate("GAMESTART", GameStarted.ToString());
+            try
+            {
+                GameObject.Find("LanNetworkManager").transform.GetChild(0).gameObject.SetActive(false);
+            }
+            catch
+            {
+
+            }
+            phase_1 = true;
+            StartCoroutine(phase1());
+
+            foreach (NetworkPlayerManager player in players)
+            {
+                temp = MyCore.NetCreateObject(1, player.Owner, GameObject.Find("P" + (player.Owner + 1).ToString() + "Start").transform.position, Quaternion.identity);
+            }
+            yield return new WaitForSeconds(1);
+        }
+        //players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
+            while (IsServer)
+            {
+        
+
+                SendUpdate("CHECK", "check");
+                SendUpdate("UI", "ui");
+
+                players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
+                characters = GameObject.FindObjectsOfType<NetworkPlayerController>();
+             
+                if (phase1_done == 0)
+                {
+                    EnemyMovement[] enemies = GameObject.FindObjectsOfType<EnemyMovement>();
+                    EnemyHitbox[] eHitboxes = GameObject.FindObjectsOfType<EnemyHitbox>();
+
+                    foreach (EnemyMovement enemy in enemies)
+                    {
+                        MyCore.NetDestroyObject(enemy.NetId);
+                    }
+                    foreach (EnemyHitbox ehitbox in eHitboxes)
+                    {
+                        MyCore.NetDestroyObject(ehitbox.NetId);
+                    }
+                }
+
+                if (IsDirty)
+                {
+                    IsDirty = false;
+                }
+            
+                yield return new WaitForSeconds(.1f);
+            }
+        /*
+        if (IsServer)
+        {
+           //yield return StartCoroutine(checkForReady());
+           StartCoroutine(checkForReady());
         }
 
         while (MyCore.IsConnected)
         {
 
-            players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
+
             characters = GameObject.FindObjectsOfType<NetworkPlayerController>();
+            players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
 
-
-            if(IsServer)
+            if (IsServer)
             {
 
                 SendUpdate("CHECK", "check");
@@ -213,13 +290,13 @@ public class GameMaster : NetworkComponent
             }
 
             yield return new WaitForSeconds(.1f);
-        }
+        }*/
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Debug.Log("Starting game master");
     }
 
     // Update is called once per frame
@@ -269,9 +346,13 @@ public class GameMaster : NetworkComponent
     public IEnumerator checkForReady()
     {
         int playersReady = 0;
+        if(IsServer)
+        {
 
+        }
         while (allPlayersReady == false)
         {
+            players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
             if (players.Length > 1)
             {
                 for (int i = 0; i < players.Length; i++)
@@ -285,7 +366,15 @@ public class GameMaster : NetworkComponent
                 if (playersReady == players.Length)
                 {
                     allPlayersReady = true;
-                    GameObject.Find("LanNetworkManager").transform.GetChild(0).gameObject.SetActive(false);
+                    try
+                    {
+                        GameObject.Find("LanNetworkManager").transform.GetChild(0).gameObject.SetActive(false);
+                    }
+                    catch
+                    {
+                       
+                    }
+                    allPlayersReady = true;
                     phase_1 = true;
                     SendUpdate("GAMESTART", "start");
                     StartCoroutine(phase1());
@@ -312,7 +401,7 @@ public class GameMaster : NetworkComponent
 
             this.transform.GetChild(0).gameObject.SetActive(true);
             phase1_done -= 1;
-            this.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.GetComponent<Text>().text = phase1_done.ToString();
+            timerPanel.text = phase1_done.ToString();
 
             SendUpdate("TIMER1", phase1_done.ToString());
 
