@@ -126,14 +126,14 @@ public class LobbyManager2 : NetworkCore
                 System.Diagnostics.Process proc = new System.Diagnostics.Process();
                 proc.StartInfo.UseShellExecute = true;
                 string[] args = System.Environment.GetCommandLineArgs();
-                
+
 #if UNITY_EDITOR
                 //You will need to change this to your executable name if you want to run a server in the editor.
-                proc.StartInfo.FileName = "C:\\LobbyManager2\\My project\\WindowsBuild\\NewLobbyManager.exe";
+                proc.StartInfo.FileName = "C:\\Unimportant PC Files\\Computer Science Classes\\Game Dev 2\\GameExpoForReal\\Game Expo 2.exe";
 #else
                 proc.StartInfo.FileName = args[0];
 #endif
-                proc.StartInfo.Arguments = "PORT_" + gameCounter + "_GAMEID_" + s + " -batchmode -nographics >GameServer" + gameCounter + "Log.txt";
+                proc.StartInfo.Arguments = "PORT_" + gameCounter + "_GAMEID_" + s + "> wtf.txt";// + " -batchmode -nographics >GameServer" + gameCounter + "Log.txt";
 
                 gameServers.Add(gameCounter, proc);
                 gameCounter++;

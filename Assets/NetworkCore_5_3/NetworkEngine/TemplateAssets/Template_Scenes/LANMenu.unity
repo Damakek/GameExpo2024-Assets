@@ -11920,10 +11920,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1441745054797590373, guid: e6147e039513b224d853adedc1c719d5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1500607540065853291, guid: e6147e039513b224d853adedc1c719d5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11964,10 +11960,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2510745463518663332, guid: e6147e039513b224d853adedc1c719d5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4458925609729403439, guid: e6147e039513b224d853adedc1c719d5, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -11975,10 +11967,6 @@ PrefabInstance:
     - target: {fileID: 7384334481653900979, guid: e6147e039513b224d853adedc1c719d5, type: 3}
       propertyPath: m_Name
       value: GameMaster
-      objectReference: {fileID: 0}
-    - target: {fileID: 8970658906186282145, guid: e6147e039513b224d853adedc1c719d5, type: 3}
-      propertyPath: phase1_done
-      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
