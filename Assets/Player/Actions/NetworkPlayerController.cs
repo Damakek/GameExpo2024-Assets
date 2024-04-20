@@ -428,7 +428,7 @@ public class NetworkPlayerController : NetworkComponent
                 MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
             }
 
-            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward + new Vector3(1,2,1), Quaternion.identity);
+            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward * 1.5f + new Vector3(0,2,0), this.transform.rotation); //new vector3
             
             temp.transform.parent = this.transform;
             SendUpdate("CHLD", temp.GetComponent<NetworkID>().NetId.ToString());

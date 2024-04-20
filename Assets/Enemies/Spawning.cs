@@ -52,7 +52,7 @@ public class Spawning : NetworkComponent
     {
         if (IsServer)
         {
-            if (FindObjectOfType<GameMaster>().GameStarted == true && isRunning == false)
+            if (FindObjectOfType<GameMaster>().GameStarted == true && isRunning == false && FindObjectOfType<GameMaster>().phase_2 != true)
             {
                 StartCoroutine(SpawnEnemies());
             }

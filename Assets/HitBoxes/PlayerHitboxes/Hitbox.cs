@@ -12,6 +12,12 @@ public class Hitbox : NetworkComponent
     public delegate void MyEventHandler();
     public static event MyEventHandler enemyHit;
 
+    public int damage;
+    GameObject gameMaster;
+
+    bool hasHitEnemy = false;
+
+    Collider[] overlappingColliders;
     public override void HandleMessage(string flag, string value)
     {
         if(flag == "PLAYER")
@@ -21,6 +27,8 @@ public class Hitbox : NetworkComponent
                 players = GameObject.FindObjectsOfType<NetworkPlayerController>();
             }
         }
+
+       
     }
 
     public override void NetworkedStart()
@@ -41,9 +49,11 @@ public class Hitbox : NetworkComponent
         }
     }
 
+
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        HandleCollision(collision);
+        /*if (collision.gameObject.CompareTag("Enemy"))
         {
             enemyHit?.Invoke();
             
@@ -65,7 +75,162 @@ public class Hitbox : NetworkComponent
         {
             if(GameObject.Find("GameMaster").GetComponent<GameMaster>().phase_2 == true)
             {
-                if(collision.gameObject.GetComponent<NetworkPlayerController>().Owner != this.Owner)
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                    NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+
+                    foreach (NetworkPlayerController playercharacter in players)
+                    {
+                        if (playercharacter.Owner == this.Owner)
+                        {
+                            tempCont.isHit = true;
+                            tempCont.health = tempCont.health - playercharacter.damage;
+                        }
+                    }
+
+                    tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+                }*/
+
+
+        /*if(collision.gameObject.GetComponent<NetworkPlayerController>().Owner != this.Owner)
+        {
+
+            //collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
+
+            NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+
+            foreach(NetworkPlayerController playercharacter in players)
+            {
+                if(playercharacter.Owner == this.Owner)
+                {
+                    tempCont.isHit = true;
+                    tempCont.health = tempCont.health - playercharacter.damage;
+                }
+            }
+
+            tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+        }*/
+    }
+   
+ 
+    
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        gameMaster = GameObject.FindGameObjectWithTag("Game Master");
+
+        GameObject parentObject = transform.parent.gameObject;
+        damage = parentObject.GetComponent<NetworkPlayerController>().damage;
+        overlappingColliders = Physics.OverlapBox(transform.position, transform.localScale / 2);
+        
+        
+        if (overlappingColliders.Length > 0)
+        {
+           
+            for (int i = 0; i < overlappingColliders.Length; i++)
+            {
+                if(overlappingColliders[i] != parentObject.GetComponent<BoxCollider>())
+                {
+                    HandleCollision(overlappingColliders[i]);
+                }
+                
+                
+            }
+        }
+    }
+
+    
+       
+    
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(!hasHitEnemy && gameMaster.GetComponent<GameMaster>().phase_2 == true)
+
+        {
+            GameObject parentObject = transform.parent.gameObject;
+            overlappingColliders = Physics.OverlapBox(transform.position, transform.localScale / 2);
+
+
+            if (overlappingColliders.Length > 0)
+            {
+
+                for (int i = 0; i < overlappingColliders.Length; i++)
+                {
+                    if (overlappingColliders[i] != parentObject.GetComponent<BoxCollider>())
+                    {
+                        if (overlappingColliders[i].gameObject.CompareTag("Player"))
+                        {
+
+
+                            NetworkPlayerController tempCont = overlappingColliders[i].gameObject.GetComponent<NetworkPlayerController>();
+
+                           
+                   
+                            tempCont.isHit = true;
+                            tempCont.health = tempCont.health - damage;
+                                
+                            
+
+                            tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+                            hasHitEnemy = true;
+                        }
+                    }
+
+
+                }
+            }
+        }
+    }
+
+    public void HandleCollision(Collider collision)
+    {
+       
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            enemyHit?.Invoke();
+
+            foreach (NetworkPlayerController playercharacter in players)
+            {
+                if (playercharacter.Owner == this.Owner)
+                {
+                    collision.gameObject.GetComponent<EnemyMovement>().health -= playercharacter.damage;
+                }
+            }
+            if (!collision.gameObject.GetComponent<EnemyMovement>().isHit)
+            {
+                collision.gameObject.GetComponent<EnemyMovement>().isHit = true;
+                //collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 20, ForceMode.VelocityChange);
+            }
+        }
+
+        if (GameObject.Find("GameMaster") != null)
+        {
+            
+            if (GameObject.Find("GameMaster").GetComponent<GameMaster>().phase_2 == true)
+            {
+               
+                if (collision.gameObject.CompareTag("Player"))
+                {
+                   
+                    
+                    NetworkPlayerController tempCont = collision.gameObject.GetComponent<NetworkPlayerController>();
+
+                    foreach (NetworkPlayerController playercharacter in players)
+                    {
+                        if (playercharacter.Owner == this.Owner)
+                        {
+                            
+                            tempCont.isHit = true;
+                            tempCont.health = tempCont.health - playercharacter.damage;
+                        }
+                    }
+
+                    tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
+                }
+                /*if(collision.gameObject.GetComponent<NetworkPlayerController>().Owner != this.Owner)
                 {
 
                     //collision.gameObject.GetComponent<Rigidbody>().AddForce((collision.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
@@ -76,26 +241,14 @@ public class Hitbox : NetworkComponent
                     {
                         if(playercharacter.Owner == this.Owner)
                         {
+                            tempCont.isHit = true;
                             tempCont.health = tempCont.health - playercharacter.damage;
                         }
                     }
                     
                     tempCont.SendUpdate("HEALTH", tempCont.health.ToString());
-                }
+                }*/
             }
         }
-    }
-    
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
