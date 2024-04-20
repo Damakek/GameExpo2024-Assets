@@ -722,7 +722,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 378318156}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.789951
+  m_Size: 0.7948867
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10294,7 +10294,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 1
   m_VoxelSize: 1
   m_MinRegionArea: 1000
-  m_NavMeshData: {fileID: 23800000, guid: 082131f54ef20d34b9f75f8987fe7e6b, type: 2}
+  m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
 --- !u!64 &1434430059
 MeshCollider:
@@ -10917,8 +10917,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1658902906}
   m_HandleRect: {fileID: 1658902905}
   m_Direction: 0
-  m_Value: 0.49635756
-  m_Size: 0.9989522
+  m_Value: 0.4962591
+  m_Size: 0.99898547
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12270,7 +12270,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1904947441}
   m_Direction: 2
   m_Value: 0.5
-  m_Size: 0.054895125
+  m_Size: 0.055235565
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13095,8 +13095,8 @@ MonoBehaviour:
   SpawnPrefab: []
   NetworkPlayerManager: {fileID: 7124888953299117985, guid: aa91568026d4b66408ee390ed8c99ee3, type: 3}
   DefaultReturnScene: 0
-  publicIPAddress: 127.0.0.1
-  privateIPAddress: 127.0.0.1
+  publicIPAddress: 23.128.112.62
+  privateIPAddress: 10.200.208.181
   portMininimum: 9005
   portMaxinimum: 10000
   isGameServer: 0
@@ -13104,7 +13104,7 @@ MonoBehaviour:
   gameCore: {fileID: 2124650039}
   localGameID: 
   gameCounter: 0
-  maxGameTime: 60
+  maxGameTime: 3600
   gameRoomContent: {fileID: 68152913}
   gameNameInput: {fileID: 1642041172}
   createGameButton: {fileID: 211073371}

@@ -224,9 +224,22 @@ public class GameMaster : NetworkComponent
 
     public override void NetworkedStart()
     {
-        
+        StartCoroutine(checkForEmpty());
     }
 
+
+    public IEnumerator checkForEmpty()
+    {
+        while(GameStarted == true)
+        {
+            if(players == null)
+            {
+                MyCore.UI_Quit();
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
 
 
     public override IEnumerator SlowUpdate()
@@ -303,6 +316,10 @@ public class GameMaster : NetworkComponent
                     IsDirty = false;
                 }
             
+
+                
+
+
                 yield return new WaitForSeconds(.1f);
             }
         /*
@@ -454,6 +471,9 @@ public class GameMaster : NetworkComponent
 
     public IEnumerator phase1()
     {
+
+        MyCore.NotifyGameStart();
+
         while(phase1_done != 0)
         {
 

@@ -446,7 +446,7 @@ MonoBehaviour:
   - {fileID: 1920942591703337806, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
   temp: {fileID: 0}
   item: {fileID: 0}
-  health: 50
+  health: 15
   MyAnime: {fileID: 6023958098892852718}
 --- !u!195 &5819266200895584495
 NavMeshAgent:
