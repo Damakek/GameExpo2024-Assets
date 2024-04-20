@@ -202,15 +202,15 @@ public class GameMaster : NetworkComponent
                     {
                         position4.text = playerInfo[i].score.ToString();
                     }
-                    else if (i == 1)
+                    if (i == 1)
                     {
                         position3.text = playerInfo[i].score.ToString();
                     }
-                    else if (i == 2)
+                    if (i == 2)
                     {
                         position2.text = playerInfo[i].score.ToString();
                     }
-                    else if (i == 3)
+                    if (i == 3)
                     {
                         position1.text = playerInfo[i].score.ToString();
                     }
@@ -592,7 +592,7 @@ public class GameMaster : NetworkComponent
         this.transform.GetChild(0).gameObject.SetActive(false);
         this.transform.GetChild(2).gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
 
 
         StartCoroutine(MyCore.DisconnectServer());
