@@ -3428,8 +3428,6 @@ MonoBehaviour:
   knockback: 10
   stun: 0
   scorePerHit: 100
-  damage: 5
-  updatedDamage: 0
   MyRig: {fileID: 0}
   temp: {fileID: 0}
   lastDirection: {x: 0, y: 0}
@@ -3440,14 +3438,8 @@ MonoBehaviour:
   lastFace: {x: 0, y: 0, z: 0}
   isMoving: 0
   isBlocking: 0
-  canMove: 1
   canAtk: 1
   lastMoveCmd: {x: 0, y: 0}
-  isHit: 0
-  isHitRunning: 0
-  hasPowerup: 0
-  collectibleType: 0
-  isPowerUpRunning: 0
 --- !u!114 &6255455813614438513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3589,8 +3581,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.9901556, y: 1.8099642, z: 0.4693095}
-  m_Center: {x: -0.017225903, y: 0.90139025, z: -0.046010338}
+  m_Size: {x: 0.6424732, y: 1.8099641, z: 0.21166992}
+  m_Center: {x: 0.00015926361, y: 0.90139014, z: -0.02557373}
 --- !u!1 &4064703298171880688
 GameObject:
   m_ObjectHideFlags: 0

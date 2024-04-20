@@ -46,9 +46,7 @@ public class NetworkPlayerController : NetworkComponent
     public bool isHit = false;
     public bool isHitRunning = false;
 
-    public bool hasPowerup = false;
-    public int collectibleType;
-    public bool isPowerUpRunning = false;
+
     public override void HandleMessage(string flag, string value)
     {
 
@@ -271,17 +269,6 @@ public class NetworkPlayerController : NetworkComponent
                 canAtk = true;
             }
         }
-
-        if (flag == "COLLEC")
-        {
-            if (IsClient)
-            {
-                MyCore.NetObjs[int.Parse(value)].gameObject.GetComponent<BoxCollider>().enabled = false;
-                MyCore.NetObjs[int.Parse(value)].gameObject.transform.parent = this.transform;
-                MyCore.NetObjs[int.Parse(value)].gameObject.transform.position = this.transform.position + new Vector3(0, 7f, 0);
-
-            }
-        }
     }
 
     
@@ -428,7 +415,7 @@ public class NetworkPlayerController : NetworkComponent
                 MyCore.NetDestroyObject(temp.GetComponent<NetworkComponent>().NetId);
             }
 
-            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward * 1.5f + new Vector3(0,2,0), this.transform.rotation); //new vector3
+            temp = MyCore.NetCreateObject(6, this.Owner, this.transform.position + this.transform.forward + new Vector3(1,2,1), Quaternion.identity);
             
             temp.transform.parent = this.transform;
             SendUpdate("CHLD", temp.GetComponent<NetworkID>().NetId.ToString());
@@ -467,11 +454,6 @@ public class NetworkPlayerController : NetworkComponent
             StartCoroutine(Hit());
         }
 
-        if(hasPowerup && !isPowerUpRunning)
-        {
-            StartCoroutine(SpawnPowerup());
-        }
-
         
 
         if(IsServer && MyRig != null)
@@ -495,7 +477,7 @@ public class NetworkPlayerController : NetworkComponent
 
             MyAnime.SetFloat("speedh", animationSpeed);
             //MyAnime.SetFloat("speedh", 1f);
-
+  
         }
     }
 
@@ -507,20 +489,5 @@ public class NetworkPlayerController : NetworkComponent
 
         isHit = false;
         isHitRunning = false;
-    }
-
-    public IEnumerator SpawnPowerup()
-    {
-        isPowerUpRunning = true;
-        GameObject collec = MyCore.NetCreateObject(collectibleType, Owner, this.transform.position + new Vector3(0, 7f, 0), Quaternion.identity);
-        collec.transform.parent = this.transform;
-        collec.transform.position = this.transform.position + new Vector3(0, 7f, 0);
-        SendUpdate("COLLEC", collec.GetComponent<NetworkID>().NetId.ToString());
-        collec.GetComponent<BoxCollider>().enabled = false;
-        yield return new WaitForSeconds(10f);
-
-        MyCore.NetDestroyObject(collec.GetComponent<NetworkID>().NetId);
-        hasPowerup = false;
-        isPowerUpRunning = false;
     }
 }

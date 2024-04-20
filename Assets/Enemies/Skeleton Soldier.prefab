@@ -445,7 +445,6 @@ MonoBehaviour:
   - {fileID: 8453048579434284262, guid: 2b8cc8c9cca7bfc43bbf543ba0c7fda1, type: 3}
   - {fileID: 1920942591703337806, guid: cc4c368d94f0dac418847ac647d2efab, type: 3}
   temp: {fileID: 0}
-  item: {fileID: 0}
   health: 50
   MyAnime: {fileID: 6023958098892852718}
 --- !u!195 &5819266200895584495
@@ -489,8 +488,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7785511, y: 1.7046093, z: 0.5263519}
-  m_Center: {x: -0.02502346, y: 0.88221216, z: -0.016985577}
+  m_Size: {x: 0.7785511, y: 1.7046094, z: 0.3710785}
+  m_Center: {x: -0.02502346, y: 0.88221216, z: 0.013328552}
 --- !u!54 &-7852108043472008642
 Rigidbody:
   m_ObjectHideFlags: 0
