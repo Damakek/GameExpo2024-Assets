@@ -12,7 +12,6 @@ public class NetworkPlayerManager : NetworkComponent
 
     public string PName;
     public bool IsReady;
-    public int playersJoined;
 
     public Text ScoreDisplay;
     public Text HealthDisplay;
@@ -25,6 +24,7 @@ public class NetworkPlayerManager : NetworkComponent
         {
             if (IsClient)
             {
+                players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
                 playerControllers = GameObject.FindObjectsOfType<NetworkPlayerController>();
             }
         }
@@ -274,16 +274,6 @@ public class NetworkPlayerManager : NetworkComponent
                 players = GameObject.FindObjectsOfType<NetworkPlayerManager>();
 
                 SendUpdate("CHECK", "");
-
-                
-
-
-                playersJoined = players.Length;
-
-                if(playersJoined > 1)
-                {
-                    SendUpdate("NEWPLAYER", "playerJoined");
-                }
 
                 if (IsDirty)
                 {
