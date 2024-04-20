@@ -64,7 +64,7 @@ public class Spawning : NetworkComponent
     {
         //slope allows for minimum time of 5 seconds for 4 players
         isRunning = true;
-        float time = (5f / -3f) * FindObjectOfType<GameMaster>().players.Length + 10;
+        float time = (4f / -3f) * FindObjectOfType<GameMaster>().players.Length + 6;
         yield return new WaitForSeconds(time);
 
         int spawnsight = Random.Range(0, spawners.Count);

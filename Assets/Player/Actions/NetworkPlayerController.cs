@@ -385,7 +385,7 @@ public class NetworkPlayerController : NetworkComponent
                 if (health <= 0)
                 {
                     score -= 100;
-                    SendUpdate("SCORE", (this.score - 100).ToString());
+                    SendUpdate("SCORE", (this.score - 500).ToString());
                     if (GameObject.FindObjectOfType<GameMaster>().phase_1 == true)
                     {
                         health = 50;
