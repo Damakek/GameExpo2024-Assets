@@ -395,34 +395,19 @@ public class NetworkPlayerController : NetworkComponent
     }
 
     public IEnumerator AtkStop() {
-        bool moveAtk = false;
-        if(MyRig.velocity.magnitude > 0.05) {
-            moveAtk = true;
-        }
-        if(moveAtk) {
+        if(isMoving) {
             yield return new WaitForSeconds(1f);
             canMove = false;
-            if(IsServer) {
-                lastDirection.x = 0;
-                lastDirection.y = 0;
-            }
             yield return new WaitForSeconds(.5f);
         } else {
             canMove = false;
-            if(IsServer) {
-                lastDirection.x = 0;
-                lastDirection.y = 0;
-            }
             yield return new WaitForSeconds(1f);
         }
         canMove = true;
-        if(IsLocalPlayer) {
-            animationSpeed = Mathf.Max(Mathf.Abs(Input.GetAxis("Horizontal")), Mathf.Abs(Input.GetAxis("Vertical")));
-            SendCommand("MOVE", Input.GetAxis("Horizontal").ToString() +"," + Input.GetAxis("Vertical").ToString() + "," + animationSpeed.ToString());
-        }
     }
     public IEnumerator Attack()
     {
+        bool moveAtk = false;
         if (canAtk)
         {
             if (temp != null)
@@ -435,10 +420,15 @@ public class NetworkPlayerController : NetworkComponent
             temp.transform.parent = this.transform;
             SendUpdate("CHLD", temp.GetComponent<NetworkID>().NetId.ToString());
             canAtk = false;
-            StartCoroutine(AtkStop());
+            if(MyRig.velocity.magnitude > 0.05) {
+                moveAtk = true;
+            }
+            canMove = moveAtk;
             //SendUpdate("CLDMOVE",canMove.ToString());
         }
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
+        canMove = moveAtk;
+        yield return new WaitForSeconds(0.5f);
 
         if (temp != null)
         {
@@ -446,6 +436,7 @@ public class NetworkPlayerController : NetworkComponent
         }
         canAtk = true;
         SendUpdate("CLDOWN", "");
+        canMove = true;
     }
 
     // Start is called before the first frame update
