@@ -268,6 +268,7 @@ public class GameMaster : NetworkComponent
             foreach (NetworkPlayerManager player in players)
             {
                 temp = MyCore.NetCreateObject(1, player.Owner, GameObject.Find("P" + (player.Owner + 1).ToString() + "Start").transform.position, Quaternion.identity);
+                temp.GetComponent<NetworkPlayerController>().PName = player.PName;
             }
             yield return new WaitForSeconds(1);
         }

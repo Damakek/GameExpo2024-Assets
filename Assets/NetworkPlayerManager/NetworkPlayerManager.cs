@@ -157,8 +157,13 @@ public class NetworkPlayerManager : NetworkComponent
             {
                 if (playercharacter.Owner == this.Owner)
                 {
-                    playercharacter.SendCommand("SCORE", (playercharacter.score - 50).ToString());
-                    playercharacter.SendCommand("HEALTH", (playercharacter.health + 5).ToString());
+                    if(playercharacter.score >= 500)
+                    {
+                        playercharacter.SendCommand("SCORE", (playercharacter.score - 500).ToString());
+                        playercharacter.SendCommand("HEALTH", (playercharacter.health + 5).ToString());
+                    }
+                    //playercharacter.SendCommand("SCORE", (playercharacter.score - 50).ToString());
+                    //playercharacter.SendCommand("HEALTH", (playercharacter.health + 5).ToString());
                 }
 
             }
@@ -173,7 +178,8 @@ public class NetworkPlayerManager : NetworkComponent
             {
                 if (playercharacter.Owner == this.Owner)
                 {
-                    playercharacter.SendCommand("SCORE", (playercharacter.score + 50).ToString());
+
+                    playercharacter.SendCommand("SCORE", (playercharacter.score + 450).ToString());
                     playercharacter.SendCommand("HEALTH", (playercharacter.health - 5).ToString());
                 }
 
@@ -189,8 +195,13 @@ public class NetworkPlayerManager : NetworkComponent
             {
                 if(playercharacter.Owner == this.Owner)
                 {
-                    playercharacter.SendCommand("SCORE", (playercharacter.score - 50).ToString());
-                    playercharacter.SendCommand("SPEED", (playercharacter.speed + 5).ToString());
+                    if (playercharacter.score >= 1000)
+                    {
+                        playercharacter.SendCommand("SCORE", (playercharacter.score - 1000).ToString());
+                        playercharacter.SendCommand("SPEED", (playercharacter.speed + 0.5f).ToString());
+                    }
+                    //playercharacter.SendCommand("SCORE", (playercharacter.score - 50).ToString());
+                    //playercharacter.SendCommand("SPEED", (playercharacter.speed + 5).ToString());
                 }
                 
             }
@@ -206,8 +217,8 @@ public class NetworkPlayerManager : NetworkComponent
             {
                 if (playercharacter.Owner == this.Owner)
                 {
-                    playercharacter.SendCommand("SCORE", (playercharacter.score + 50).ToString());
-                    playercharacter.SendCommand("SPEED", (playercharacter.speed - 5).ToString());
+                    playercharacter.SendCommand("SCORE", (playercharacter.score + 950).ToString());
+                    playercharacter.SendCommand("SPEED", (playercharacter.speed - 0.5f).ToString());
                 }
 
             }
@@ -223,8 +234,13 @@ public class NetworkPlayerManager : NetworkComponent
             {
                 if(playercharacter.Owner == this.Owner)
                 {
-                    playercharacter.SendCommand("SCORE", (playercharacter.score - 50).ToString());
-                    playercharacter.SendCommand("DAMAGE", (playercharacter.damage + 1).ToString());
+                    if (playercharacter.score >= 3000)
+                    {
+                        playercharacter.SendCommand("SCORE", (playercharacter.score - 3000).ToString());
+                        playercharacter.SendCommand("DAMAGE", (playercharacter.damage + 1).ToString());
+                    }
+                   // playercharacter.SendCommand("SCORE", (playercharacter.score - 3000).ToString());
+                    //playercharacter.SendCommand("DAMAGE", (playercharacter.damage + 1).ToString());
                 }
             }
         }
@@ -238,7 +254,7 @@ public class NetworkPlayerManager : NetworkComponent
             {
                 if (playercharacter.Owner == this.Owner)
                 {
-                    playercharacter.SendCommand("SCORE", (playercharacter.score + 50).ToString());
+                    playercharacter.SendCommand("SCORE", (playercharacter.score + 2500).ToString());
                     playercharacter.SendCommand("DAMAGE", (playercharacter.damage - 1).ToString());
                 }
             }
