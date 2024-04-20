@@ -16,8 +16,13 @@ public class GameMaster : NetworkComponent
     public int playersJoined;
     public NetworkPlayerManager[] players;
     public NetworkPlayerController[] characters;
-    public List<GameObject> playerInfo = new List<GameObject>();
+    public List<NetworkPlayerController> playerInfo = new List<NetworkPlayerController>();
     public GameObject temp;
+    
+    public Text position1;
+    public Text position2;
+    public Text position3;
+    public Text position4;
 
     public bool uiI = true;
 
@@ -159,6 +164,58 @@ public class GameMaster : NetworkComponent
         {
             if(IsClient)
             {
+
+
+                foreach(NetworkPlayerController character in characters)
+                {
+                    playerInfo.Add(character);
+                }
+
+                NetworkPlayerController temp;
+                bool swapped;
+
+                for (int i = 0; i < playerInfo.Count - 1; i++)
+                {
+                    swapped = false;
+                    for (int j = 0; j < playerInfo.Count - i - 1; j++)
+                    {
+                        if (playerInfo[j].score > playerInfo[j + 1].score)
+                        {
+
+                            // Swap arr[j] and arr[j+1]
+                            temp = playerInfo[j];
+                            playerInfo[j] = playerInfo[j + 1];
+                            playerInfo[j + 1] = temp;
+                            swapped = true;
+                        }
+                    }
+
+                    // If no two elements were
+                    // swapped by inner loop, then break
+                    if (swapped == false)
+                        break;
+                }
+
+                for(int i = 0; i < playerInfo.Count; i++)
+                {
+                    if(i == 0)
+                    {
+                        position4.text = playerInfo[i].score.ToString();
+                    }
+                    if (i == 1)
+                    {
+                        position3.text = playerInfo[i].score.ToString();
+                    }
+                    if (i == 2)
+                    {
+                        position2.text = playerInfo[i].score.ToString();
+                    }
+                    if (i == 3)
+                    {
+                        position1.text = playerInfo[i].score.ToString();
+                    }
+                }
+
                 this.transform.GetChild(0).gameObject.SetActive(false);
                 this.transform.GetChild(2).gameObject.SetActive(true);
             }
@@ -296,7 +353,7 @@ public class GameMaster : NetworkComponent
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Starting game master");
+
     }
 
     // Update is called once per frame
