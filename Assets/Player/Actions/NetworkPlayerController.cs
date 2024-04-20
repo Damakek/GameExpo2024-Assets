@@ -4,9 +4,11 @@ using System.Collections;
 using System.Xml;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class NetworkPlayerController : NetworkComponent
 {
+    public string PName;
 
     public int health = 50;
     public int score = 0;
@@ -51,7 +53,11 @@ public class NetworkPlayerController : NetworkComponent
     public bool isPowerUpRunning = false;
     public override void HandleMessage(string flag, string value)
     {
-
+        if(IsClient && flag == "PNAME")
+        {
+            PName = value;
+            this.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = PName;
+        }
         
         if(flag == "SPEED")
         {
@@ -387,7 +393,7 @@ public class NetworkPlayerController : NetworkComponent
                     }
                 }
 
-
+               
             }
 
             if (IsServer)
@@ -398,7 +404,8 @@ public class NetworkPlayerController : NetworkComponent
                     SendUpdate("SCORE", score.ToString());
                     SendUpdate("SPEED", speed.ToString());
                     SendUpdate("DAMAGE", damage.ToString());
-                    
+                    SendUpdate("PNAME", PName);
+
                     IsDirty = false;
                 }
             }
