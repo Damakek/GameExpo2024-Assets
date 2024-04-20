@@ -23,12 +23,14 @@ public class EnemyMovement : NetworkComponent
 
     public GameObject[] collectiblePrefabs;
     public GameObject temp;
+    public GameObject item;
 
 
     public int health = 5;
 
 
     public Animator MyAnime;
+    
 
     public override void HandleMessage(string flag, string value)
     {
@@ -168,7 +170,20 @@ public class EnemyMovement : NetworkComponent
 
     public void OnDestroy()
     {
-        if(temp != null)
+        int odds = Random.Range(0, 99);
+        if (odds < 25)
+        {
+            int ind = Random.Range(0, collectiblePrefabs.Length);
+            item = MyCore.NetCreateObject(ind + 2, Owner, new Vector3(this.transform.position.x, this.transform.position.y + 0.2f, this.transform.position.z), Quaternion.identity);
+            Debug.Log("Object created");
+            if(item != null)
+            {
+                item.transform.localScale = new Vector3(12, 12, 12);
+            }
+            
+
+        }
+        if (temp != null)
         {
             MyCore.NetDestroyObject(temp.GetComponent<NetworkID>().NetId);
         }
@@ -207,16 +222,9 @@ public class EnemyMovement : NetworkComponent
 
     public void HealthCheck()
     {
-        if (health == 0)
+        if (health <= 0)
         {
-            int odds = Random.Range(0, 99);
-            if(odds < 99)
-            {
-                int ind = Random.Range(0, collectiblePrefabs.Length);
-                temp  = MyCore.NetCreateObject(ind + 2, Owner, new Vector3(this.transform.position.x, this.transform.position.y + 0.2f, this.transform.position.z), Quaternion.identity);
-                temp.transform.localScale = new Vector3(12,12,12);
-                MyCore.NetDestroyObject(this.NetId);
-            }
+            MyCore.NetDestroyObject(this.NetId);
             
         }
     }

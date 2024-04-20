@@ -118,8 +118,8 @@ public class SpeedCollectible : BaseCollectible
            
             for (int i = 0; i < playerControllers.Length; i++)
             {
-                //cosmetic.Add(MyCore.NetCreateObject(2, playerControllers[i].Owner, new Vector3(playerControllers[i].transform.position.x, playerControllers[i].transform.position.y + 2f, playerControllers[i].transform.position.z)));
-                //cosmetic[i].transform.parent = playerControllers[i].transform;
+                playerControllers[i].collectibleType = 2;
+                playerControllers[i].hasPowerup = true;
                 playerControllers[i].speed = playerControllers[i].speed + 5f;
                 SendUpdate("SPD", "5" );
             }
@@ -131,7 +131,8 @@ public class SpeedCollectible : BaseCollectible
         Debug.Log("inside 2nd part");
         for (int i = 0; i < playerControllers.Length; i++)
         {
-            //MyCore.NetDestroyObject(cosmetic[i].GetComponent<NetworkID>().NetId);
+            playerControllers[i].hasPowerup = false;
+            
             playerControllers[i].speed = playerControllers[i].speed - 5f;
             SendUpdate("SPD", "-5");
         }

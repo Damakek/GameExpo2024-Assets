@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using NETWORK_ENGINE;
-
+using UnityEngine.UIElements;
 
 public class Spawning : NetworkComponent
 {
@@ -52,7 +52,7 @@ public class Spawning : NetworkComponent
     {
         if (IsServer)
         {
-            if (FindObjectOfType<GameMaster>().phase1_done != 0 && isRunning == false  && FindObjectOfType<GameMaster>().allPlayersReady == true)
+            if (FindObjectOfType<GameMaster>().GameStarted == true && isRunning == false)
             {
                 StartCoroutine(SpawnEnemies());
             }
@@ -62,9 +62,10 @@ public class Spawning : NetworkComponent
 
     public IEnumerator SpawnEnemies() 
     {
+        //slope allows for minimum time of 5 seconds for 4 players
         isRunning = true;
-
-        yield return new WaitForSeconds(10f);
+        float time = (5f / -3f) * FindObjectOfType<GameMaster>().players.Length + 10;
+        yield return new WaitForSeconds(time);
 
         int spawnsight = Random.Range(0, spawners.Count);
         int enemyType = Random.Range(0, 3);

@@ -130,6 +130,8 @@ public class ScoreCollectible : BaseCollectible
 
             for (int i = 0; i < playerControllers.Length; i++)
             {
+                playerControllers[i].collectibleType = 3;
+                playerControllers[i].hasPowerup = true;
                 playerControllers[i].scorePerHit = playerControllers[i].scorePerHit * 2;
                 SendUpdate("SPH", "");
             }
@@ -141,7 +143,7 @@ public class ScoreCollectible : BaseCollectible
         Debug.Log("inside 2nd part");
         for (int i = 0; i < playerControllers.Length; i++)
         {
-
+            playerControllers[i].hasPowerup = false;
             playerControllers[i].scorePerHit = playerControllers[i].scorePerHit / 2;
             SendUpdate("SPH", "RESET");
         }
